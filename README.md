@@ -20,7 +20,7 @@ Default package manager is PNPM
 
 1. Create a .env file:
 
-```batch
+```bash
 # POSTGRES_PASSWORD is used by postgres.yml, the docker-compose file
 POSTGRES_PASSWORD=example
 # DATABASE_URL is used by Prisma
@@ -32,7 +32,7 @@ DATABASE_URL=postgresql://postgres:example@localhost:5432/postgres
 
 ## How to start?
 
-```batch
+```bash
 # Start the monorepo in the workspace
 pnpm dev
 ```
