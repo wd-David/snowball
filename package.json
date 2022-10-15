@@ -1,0 +1,19 @@
+{
+  "name": "snowball",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel"
+  },
+  "devDependencies": {
+    "turbo": "^1.5.6"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

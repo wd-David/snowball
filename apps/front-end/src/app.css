@@ -1,0 +1,13 @@
+@import 'https://unpkg.com/open-props';
+
+:root {
+	--gap: 8vw;
+	--full: minmax(var(--gap), 1fr);
+	--content: max(50ch, 100% - var(--gap) * 4);
+	--popout: minmax(0, 2rem);
+	--feature: minmax(0, 5rem);
+}
+
+body {
+  margin: 0;
+}

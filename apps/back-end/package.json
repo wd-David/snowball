@@ -1,0 +1,32 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "pnpm dev:docker && nodemon app.js",
+    "dev:docker": "docker-compose -f postgres.yml down && docker-compose -f postgres.yml up -d",
+    "dev:dbinit": "prisma migrate dev && prisma db seed",
+    "swagger-autogen": "node swagger.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.3.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "swagger-autogen": "^2.21.7",
+    "swagger-ui-express": "^4.5.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
+    "prisma": "^4.3.1"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}
