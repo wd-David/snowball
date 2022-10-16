@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 
 // async function find all categories
 
-const generateExpenseRecords = async function main() {
+const generateRecords = async function main() {
   const userIds = await prisma.user.findMany({
     select: {
       id: true,
@@ -22,7 +22,7 @@ const generateExpenseRecords = async function main() {
 
   for (const userId of userIds) {
     for (const subcategoryId of subcategoryIds) {
-      await prisma.expenseRecord.createMany({
+      await prisma.record.createMany({
         data: [
           {
             title: faker.commerce.productName(),
@@ -51,6 +51,4 @@ const generateExpenseRecords = async function main() {
   }
 }
 
-generateExpenseRecords()
-
-module.exports = generateExpenseRecords
+module.exports = generateRecords
