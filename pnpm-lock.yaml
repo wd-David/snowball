@@ -4,8 +4,10 @@ importers:
 
   .:
     specifiers:
+      open-props: ^1.4.16
       turbo: ^1.5.6
     devDependencies:
+      open-props: 1.4.16
       turbo: 1.5.6
 
   apps/back-end:
@@ -41,6 +43,7 @@ importers:
       eslint: ^8.25.0
       eslint-config-prettier: ^8.5.0
       eslint-plugin-svelte3: ^4.0.0
+      open-props: ^1.4.16
       prettier: ^2.7.1
       prettier-plugin-svelte: ^2.8.0
       sass: ^1.55.0
@@ -59,6 +62,7 @@ importers:
       eslint: 8.25.0
       eslint-config-prettier: 8.5.0_eslint@8.25.0
       eslint-plugin-svelte3: 4.0.0_2h6d4ngklmojchucosx7yvuw7m
+      open-props: 1.4.16
       prettier: 2.7.1
       prettier-plugin-svelte: 2.8.0_lrllcp5xtrkmmdzifit4hd52ze
       sass: 1.55.0
@@ -1873,6 +1877,10 @@ packages:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
+
+  /open-props/1.4.16:
+    resolution: {integrity: sha512-kPIgGYjan1aKl3Vp1pG9V5TgH7CTaDWm3ndllTgr5gBQ3tu+F11dZKpZiP1+o/aCSCx8WMo15ARsFYxCAJXxHg==}
+    dev: true
 
   /optionator/0.9.1:
     resolution: {integrity: sha512-74RlY5FCnhq4jRxVUPKDaRwrVNXMqsGsiW6AJw4XK8hmtm10wC0ypZBLw5IIp85NZMr91+qd1RvvENwg7jjRFw==}
