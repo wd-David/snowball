@@ -1,14 +1,13 @@
 <header>
-	<div class="logo">Sayve</div>
+	<div class="logo">Snowball</div>
 	<nav>
-		<a href="/overview">Overview</a>
-		<a href="/accounts">Accounts</a>
-		<a href="/activities">Activities</a>
-		<a href="/spending">Spending</a>
-		<a href="/saveandinvest">Save & Invest</a>
+		<ul>
+			<li><a href="/">Overview</a></li>
+			<li><a href="/">About</a></li>
+		</ul>
 	</nav>
 	<div class="actions">
-		<button class="search icon-button">
+		<button class="icon-button" aria-label="search">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -23,7 +22,7 @@
 				/>
 			</svg>
 		</button>
-		<button class="notification icon-button">
+		<button class="icon-button" aria-label="notification">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -39,7 +38,7 @@
 				/>
 			</svg>
 		</button>
-		<div class="user">
+		<button class="icon-button" aria-label="user">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -54,9 +53,7 @@
 					d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
 				/>
 			</svg>
-
-			<p>Adriene Cutipie </p>
-		</div>
+		</button>
 	</div>
 </header>
 
@@ -64,45 +61,62 @@
 	header {
 		position: sticky;
 		top: 0;
+		min-height: var(--size-9);
 
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
-		min-height: 4rem;
+
 		padding-inline: var(--gap);
+		margin-block-end: var(--size-fluid-4);
 
 		box-shadow: var(--shadow-1);
 	}
 
-	a {
-		padding: var(--size-2) var(--size-2);
-		text-decoration: none;
+	ul {
+		list-style: none;
+
+		li {
+			display: inline-block;
+			padding: 0 var(--size-2);
+
+			a {
+				transition: all 0.3s var(--ease-1);
+				text-decoration: none;
+
+				&:hover {
+					color: var(--blue-7);
+				}
+			}
+		}
 	}
+
 	.actions {
 		display: flex;
 		gap: var(--size-2);
-		.user {
-			display: flex;
-		}
 	}
 
 	.icon-button {
 		display: inline-block;
+
 		background: transparent;
 		border: none;
-		color: currentColor;
-		padding: 0;
 		cursor: pointer;
-		font: inherit;
-		appearance: none;
-	}
 
-	.icon-button svg {
-		display: block;
-		width: 1em;
-		height: 1em;
-		min-width: 1.5rem;
-		min-height: 1.5rem;
+		svg {
+			display: block;
+
+			width: 1em;
+			height: 1em;
+			min-width: 1.5rem;
+			min-height: 1.5rem;
+
+			transition: all 0.3s var(--ease-1);
+
+			&:hover {
+				color: var(--blue-7);
+			}
+		}
 	}
 </style>

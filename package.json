@@ -11,6 +11,7 @@
     "dev": "turbo run dev --parallel"
   },
   "devDependencies": {
+    "open-props": "^1.4.16",
     "turbo": "^1.5.6"
   },
   "engines": {

@@ -36,3 +36,11 @@ DATABASE_URL=postgresql://postgres:example@localhost:5432/postgres
 # Start the monorepo in the workspace
 pnpm dev
 ```
+
+## Branching Strategy
+
+- main: Always deployable, never push commit to main branch
+- front-end: `front-end` repo only
+- back-end: `back-end` repo only
+
+Only push commits to `front-end` or `back-end` branch, and open an PR for code review.
