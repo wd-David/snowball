@@ -2,18 +2,18 @@ const { PrismaClient } = require('@prisma/client')
 
 const categoriesSeeder = require('./seed-categories')
 const usersSeeder = require('./seed-users')
-const expenseRecordsSeeder = require('./seed-expense-records')
+const recordsSeeder = require('./seed-records')
 
 const prisma = new PrismaClient()
 
 async function main() {
-  // await prisma.user.deleteMany({})
-  // await prisma.expenseRecord.deleteMany({})
-  // await prisma.category.deleteMany({})
+  await prisma.user.deleteMany({})
+  await prisma.record.deleteMany({})
+  await prisma.category.deleteMany({})
 
   await categoriesSeeder()
   await usersSeeder()
-  await expenseRecordsSeeder()
+  await recordsSeeder()
 }
 
 main()

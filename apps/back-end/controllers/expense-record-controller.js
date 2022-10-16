@@ -16,7 +16,7 @@ const expenseRecordController = {
           'missing title or amount or category id to create a new expense record'
         )
 
-      await prisma.expenseRecord.create({
+      await prisma.record.create({
         data: {
           title,
           amount,
@@ -47,7 +47,7 @@ const expenseRecordController = {
       }
 
       // Get the current user's all expense records
-      const expenseRecords = await prisma.expenseRecord.findMany(prismaQuery)
+      const expenseRecords = await prisma.record.findMany(prismaQuery)
 
       res.json(expenseRecords)
     } catch (error) {
@@ -69,14 +69,14 @@ const expenseRecordController = {
           'missing title or amount or category id to update this expense record'
         )
 
-      const theRecord = await prisma.expenseRecord.findUnique({
+      const theRecord = await prisma.record.findUnique({
         where: {
           id: expenseRecordId,
         },
       })
       theRecord ? theRecord : res.json('the expense record does not exist')
 
-      await prisma.expenseRecord.update({
+      await prisma.record.update({
         where: { id: expenseRecordId },
         data: { title, amount, note, categoryId, userId: 11 },
       })
@@ -92,14 +92,14 @@ const expenseRecordController = {
       // #swagger.tags = ['Expense Record']
       const expenseRecordId = Number(req.params.erid)
 
-      const theRecord = await prisma.expenseRecord.findUnique({
+      const theRecord = await prisma.record.findUnique({
         where: {
           id: expenseRecordId,
         },
       })
       theRecord ? theRecord : res.json('the expense record does not exist')
 
-      await prisma.expenseRecord.delete({
+      await prisma.record.delete({
         where: {
           id: expenseRecordId,
         },

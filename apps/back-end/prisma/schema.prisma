@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  email         String          @unique
-  password      String
-  createdAt     DateTime        @default(now())
-  expenseRecord ExpenseRecord[]
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  record    Record[]
 }
 
-model ExpenseRecord {
+model Record {
   id         Int      @id @default(autoincrement())
   title      String
   amount     Int
@@ -32,8 +32,8 @@ model ExpenseRecord {
 }
 
 model Category {
-  id            Int             @id @default(autoincrement())
-  mainCategory  String
-  subCategory   String
-  expenseRecord ExpenseRecord[]
+  id           Int      @id @default(autoincrement())
+  mainCategory String
+  subCategory  String
+  record       Record[]
 }
