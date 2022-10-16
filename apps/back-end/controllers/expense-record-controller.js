@@ -38,11 +38,17 @@ const expenseRecordController = {
     // const userId = req.user.id
     try {
       // #swagger.tags = ['Expense Record']
-      const expenseRecords = await prisma.expenseRecord.findMany({
+
+      // Basic query object
+      const prismaQuery = {
         where: {
-          userId: 11,
+          userId: 1,
         },
-      })
+      }
+
+      // Get the current user's all expense records
+      const expenseRecords = await prisma.expenseRecord.findMany(prismaQuery)
+
       res.json(expenseRecords)
     } catch (error) {
       next(error)
