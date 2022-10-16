@@ -1,13 +1,16 @@
 @import 'https://unpkg.com/open-props';
 
 :root {
-	--gap: 8vw;
+	--gap: var(--size-fluid-6);
 	--full: minmax(var(--gap), 1fr);
 	--content: max(50ch, 100% - var(--gap) * 4);
 	--popout: minmax(0, 2rem);
 	--feature: minmax(0, 5rem);
 }
 
-body {
-  margin: 0;
+* {
+	font-family: 'Inter', sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
