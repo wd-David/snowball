@@ -41,7 +41,7 @@ pnpm dev
 
 We use [Github Flow](https://githubflow.github.io/).
 
-- Anything in the master branch is deployable
+- Anything in the `main` branch is deployable
 - Create descriptive branches off of master
   - front-end: `FE/[what_you_are_working_on]`
   - back-end: `BE/[what_you_are_working_on]`
