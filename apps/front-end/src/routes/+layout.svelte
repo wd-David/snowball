@@ -3,13 +3,29 @@
 	import Header from '$lib/Header.svelte';
 </script>
 
-<Header />
-<main class="wrapper">
-  <slot />
-</main>
+<div class="wrapper">
+	<Header />
+	<main>
+		<slot />
+	</main>
+</div>
 
 <style lang="scss">
-  .wrapper {
-    padding-inline: var(--gap)
-  }
+	.wrapper {
+		height: 100vh;
+		width: 100vw;
+		display: grid;
+		grid-template-columns: var(--gap) 1fr var(--gap);
+		grid-template-rows: min-content 1fr;
+		grid-template-areas:
+			'header header header'
+			'. main .';
+		:global(header) {
+			grid-area: header;
+		}
+		main {
+			grid-area: main;
+			margin-block-start: var(--size-fluid-4);
+		}
+	}
 </style>

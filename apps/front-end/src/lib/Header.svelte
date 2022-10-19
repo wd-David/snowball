@@ -59,8 +59,6 @@
 
 <style lang="scss">
 	header {
-		position: sticky;
-		top: 0;
 		min-height: var(--size-9);
 
 		display: flex;
@@ -69,7 +67,6 @@
 		align-items: center;
 
 		padding-inline: var(--gap);
-		margin-block-end: var(--size-fluid-4);
 
 		box-shadow: var(--shadow-1);
 	}
