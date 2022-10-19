@@ -48,7 +48,7 @@ We use [Github Flow](https://githubflow.github.io/).
 - Open a pull request at any time
 - Merge only after pull request review
   - Choose `Squash and merge`:
-  ![squash_and_merge](./assets/squash_and_merge.jpg)
+  - ![squash_and_merge](./assets/squash_and_merge.jpg)
 
 ### How to sync my local branch with remote `main`?
 
