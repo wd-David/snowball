@@ -37,10 +37,13 @@ DATABASE_URL=postgresql://postgres:example@localhost:5432/postgres
 pnpm dev
 ```
 
-## Branching Strategy
+## Contributing
 
-- main: Always deployable, never push commit to main branch
-- front-end: `front-end` repo only
-- back-end: `back-end` repo only
+We use [Github Flow](https://githubflow.github.io/).
 
-Only push commits to `front-end` or `back-end` branch, and open an PR for code review.
+- Anything in the master branch is deployable
+- Create descriptive branches off of master
+  - front-end: `FE/[what_you_are_working_on]`
+  - back-end: `BE/[what_you_are_working_on]`
+- Open a pull request at any time
+- Merge only after pull request review
