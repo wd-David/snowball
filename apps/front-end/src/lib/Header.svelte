@@ -1,19 +1,22 @@
-<header>
-	<div class="logo">Snowball</div>
-	<nav>
-		<ul>
+<header class="navbar border-b-2">
+	<div class="navbar-start">
+		<a href="/" class="btn-ghost btn text-xl normal-case">Snowball</a>
+	</div>
+	<nav class="navbar-center">
+		<ul class="menu menu-horizontal">
 			<li><a href="/">Overview</a></li>
 			<li><a href="/">About</a></li>
 		</ul>
 	</nav>
-	<div class="actions">
-		<button class="icon-button" aria-label="search">
+	<div class="navbar-end">
+		<button class="btn-ghost btn-circle btn" aria-label="search">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke-width="1.5"
 				stroke="currentColor"
+				class="h-6 w-6"
 			>
 				<path
 					stroke-linecap="round"
@@ -22,14 +25,14 @@
 				/>
 			</svg>
 		</button>
-		<button class="icon-button" aria-label="notification">
+		<button class="btn-ghost btn-circle btn" aria-label="notification">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke-width="1.5"
 				stroke="currentColor"
-				class="w-6 h-6"
+				class="h-6 w-6"
 			>
 				<path
 					stroke-linecap="round"
@@ -38,14 +41,14 @@
 				/>
 			</svg>
 		</button>
-		<button class="icon-button" aria-label="user">
+		<button class="btn-ghost btn-circle btn" aria-label="user">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke-width="1.5"
 				stroke="currentColor"
-				class="w-6 h-6"
+				class="h-6 w-6"
 			>
 				<path
 					stroke-linecap="round"
@@ -56,64 +59,3 @@
 		</button>
 	</div>
 </header>
-
-<style lang="scss">
-	header {
-		min-height: var(--size-9);
-
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		align-items: center;
-
-		padding-inline: var(--gap);
-
-		box-shadow: var(--shadow-1);
-	}
-
-	ul {
-		list-style: none;
-
-		li {
-			display: inline-block;
-			padding: 0 var(--size-2);
-
-			a {
-				transition: all 0.3s var(--ease-1);
-				text-decoration: none;
-
-				&:hover {
-					color: var(--blue-7);
-				}
-			}
-		}
-	}
-
-	.actions {
-		display: flex;
-		gap: var(--size-2);
-	}
-
-	.icon-button {
-		display: inline-block;
-
-		background: transparent;
-		border: none;
-		cursor: pointer;
-
-		svg {
-			display: block;
-
-			width: 1em;
-			height: 1em;
-			min-width: 1.5rem;
-			min-height: 1.5rem;
-
-			transition: all 0.3s var(--ease-1);
-
-			&:hover {
-				color: var(--blue-7);
-			}
-		}
-	}
-</style>
