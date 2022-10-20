@@ -3,7 +3,7 @@
 	import Header from '$lib/Header.svelte';
 </script>
 
-<div class="wrapper">
+<div class="wrapper bg-base-100">
 	<Header />
 	<main>
 		<slot />
@@ -22,10 +22,11 @@
 			'. main .';
 		:global(header) {
 			grid-area: header;
+			padding-inline: var(--gap);
 		}
 		main {
 			grid-area: main;
-			margin-block-start: var(--size-fluid-4);
+			margin-block-start: clamp(2rem, 4vw, 3rem);
 		}
 	}
 </style>

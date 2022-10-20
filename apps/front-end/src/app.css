@@ -1,16 +1,11 @@
-@import 'https://unpkg.com/open-props';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-	--gap: var(--size-fluid-6);
-	--full: minmax(var(--gap), 1fr);
-	--content: max(50ch, 100% - var(--gap) * 4);
-	--popout: minmax(0, 2rem);
-	--feature: minmax(0, 5rem);
+	--gap: clamp(5rem, 7vw, 7.5rem);
 }
 
 * {
 	font-family: 'Inter', sans-serif;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
 }

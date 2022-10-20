@@ -1,3 +1,6 @@
 {
-  "recommendations": ["phoenisx.cssvar"]
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "svelte.svelte-vscode"
+  ]
 }
