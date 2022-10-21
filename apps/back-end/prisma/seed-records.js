@@ -35,6 +35,12 @@ const generateRecords = async function main() {
             title: faker.commerce.productName(),
             amount: Number(faker.commerce.price(1, 777, 0)),
             note: faker.company.bs(),
+            // createdAt: faker.date.between('2021-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z')
+            createdAt: faker.date.birthdate({
+              min: 2021,
+              max: 2022,
+              mode: 'year',
+            }),
             userId: userId.id,
             categoryId: subcategoryId.id,
           },
