@@ -43,8 +43,8 @@ We use [Github Flow](https://githubflow.github.io/).
 
 - Anything in the `main` branch is deployable
 - Create descriptive branches off of master
-  - front-end: `FE/[what_you_are_working_on]`
-  - back-end: `BE/[what_you_are_working_on]`
+  - front-end: `fe-[what_you_are_working_on]`
+  - back-end: `be-[what_you_are_working_on]`
 - Open a pull request at any time
 - Merge only after pull request review
   - Choose `Squash and merge`:
