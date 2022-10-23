@@ -5,6 +5,7 @@ const recordController = require('../../controllers/record-controller')
 
 router.get('/expense', recordController.getExpenseRecords)
 router.get('/income', recordController.getIncomeReocrds)
+router.get('/saving', recordController.getSavingRecords)
 router.put('/:rid', recordController.putRecord)
 router.delete('/:rid', recordController.deleteRecord)
 router.post('/', recordController.postReocrd)
