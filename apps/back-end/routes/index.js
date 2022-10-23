@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const users = require('./modules/users')
-const expenseRecords = require('./modules/expense-records')
+const records = require('./modules/records')
 
 router.use('/users', users)
-router.use('/expense-records', expenseRecords)
+router.use('/records', records)
 
 module.exports = router
