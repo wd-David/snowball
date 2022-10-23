@@ -1,6 +1,6 @@
-const { PrismaClient } = require('@prisma/client')
+const { Prisma, PrismaClient } = require('@prisma/client')
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({ log: ['query'] })
 
 const recordController = {
   // create a new record
@@ -32,22 +32,37 @@ const recordController = {
     }
   },
 
-  // get all expense records
+  // Get all expense records and accept query string
   getExpenseRecords: async (req, res, next) => {
-    // uncommend after adding authentication process
-    // const userId = req.user.id
     try {
       // #swagger.tags = ['Expense Record']
 
-      // Basic query object
-      const prismaQuery = {
-        where: {
-          userId: 13,
-        },
-      }
+      // uncommend after adding authentication process
+      // const userId = req.user.id
+      // remove above after adding authentication process
+      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
+      const userId = userIds.map(({ id }) => id)[0]
+
+      // Get categoryIds
+      const result =
+        await prisma.$queryRaw`SELECT id FROM "Category" WHERE NOT "mainCategory" = 'Income' AND NOT "mainCategory" = 'Savings';`
+      const categoryIds = result.map(({ id }) => id)
+
+      // Basic query object, without query string
+      // const prismaQuery = {
+      //   where: {
+      //     userId: 33,
+      //   },
+      // }
+
+      // With query string
 
       // Get the current user's all expense records
-      const expenseRecords = await prisma.record.findMany(prismaQuery)
+      // const expenseRecords = await prisma.record.findMany(prismaQuery)
+      const expenseRecords =
+        await prisma.$queryRaw`SELECT * FROM "Record" WHERE "userId" = ${userId} AND "categoryId" IN (${Prisma.join(
+          categoryIds
+        )});`
 
       res.json(expenseRecords)
     } catch (error) {
@@ -110,21 +125,35 @@ const recordController = {
     }
   },
 
-  // get all income records and accept query string
+  // Get all income records and accept query string
   getIncomeReocrds: async (req, res, next) => {
     try {
       // uncommend after adding authentication process
       // const userId = req.user.id
+      // remove above after adding authentication process
+      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
+      const userId = userIds.map(({ id }) => id)[0]
 
-      // Basic query object
-      const prismaQuery = {
-        where: {
-          userId: 13,
-        },
-      }
+      // Get categoryIds
+      const result =
+        await prisma.$queryRaw`SELECT id FROM "Category" WHERE "mainCategory" = 'Income';`
+      const categoryIds = result.map(({ id }) => id)
+
+      // Basic query object, without query string
+      // const prismaQuery = {
+      //   where: {
+      //     userId: 33,
+      //   },
+      // }
+
+      // With query string
 
       // Get the current user's all income records
-      const incomeRecords = await prisma.record.findMany(prismaQuery)
+      // const incomeRecords = await prisma.record.findMany(prismaQuery)
+      const incomeRecords =
+        await prisma.$queryRaw`SELECT * FROM "Record" WHERE "userId" = ${userId} AND "categoryId" IN (${Prisma.join(
+          categoryIds
+        )});`
 
       res.json(incomeRecords)
     } catch (error) {
