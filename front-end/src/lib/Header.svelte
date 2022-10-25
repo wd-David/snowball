@@ -6,6 +6,7 @@
 		<ul class="menu menu-horizontal">
 			<li><a href="/">Overview</a></li>
 			<li><a href="/">About</a></li>
+			<li><a href="/login">Login</a></li>
 		</ul>
 	</nav>
 	<div class="navbar-end">
