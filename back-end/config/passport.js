@@ -50,6 +50,25 @@ passport.use(
   )
 )
 
+// JWT
+// Take out JWT from authorization header, bearer
+const jwtOptions = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET,
+}
+
+passport.use(
+  new JWTStrategy(jwtOptions, async (jwtPayload, callbackFn) => {
+    try {
+      const user = await prisma.findUnique({ where: { id: jwtPayload.id } })
+
+      return callbackFn(null, user)
+    } catch (error) {
+      callbackFn(error)
+    }
+  })
+)
+
 // Serialize user
 // As serializing user, only store user.id
 passport.serializeUser((user, callbackFn) => {
