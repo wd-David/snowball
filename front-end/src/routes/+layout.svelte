@@ -1,6 +1,14 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import Header from '$lib/Header.svelte';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import type { SvelteToastOptions } from '@zerodevx/svelte-toast';
+
+	const options: SvelteToastOptions = {
+		duration: 3000,
+		reversed: true,
+		intro: { y: -192 }
+	};
 </script>
 
 <div class="wrapper bg-base-100">
@@ -9,6 +17,7 @@
 		<slot />
 	</main>
 </div>
+<SvelteToast {options} />
 
 <style lang="scss">
 	.wrapper {
