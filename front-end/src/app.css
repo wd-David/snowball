@@ -4,6 +4,10 @@
 
 :root {
 	--gap: clamp(5rem, 7vw, 7.5rem);
+	--toastContainerTop: 6rem;
+	--toastContainerRight: auto;
+	--toastContainerBottom: auto;
+	--toastContainerLeft: calc(50vw - 8rem);
 }
 
 * {

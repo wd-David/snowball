@@ -27,7 +27,7 @@ export const actions: Actions = {
 			if (response === 'incorrect email or unregistered email')
 				return invalid(400, { email, incorrect: true });
 
-			return { success: true };
+			return { success: true, user: email, type: 'login' };
 		} catch (e) {
 			throw Error('something went wrong');
 		}
@@ -57,7 +57,7 @@ export const actions: Actions = {
 			if (data === 'this email has been registered')
 				return invalid(400, { email, registered: true });
 
-			return { success: true };
+			return { success: true, user: email, type: 'register' };
 		} catch (e) {
 			throw Error('something went wrong');
 		}
