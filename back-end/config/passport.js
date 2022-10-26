@@ -21,31 +21,27 @@ passport.use(
 
     // Authenticate current user
     async (email, password, callbackFn) => {
-      try {
-        // Find the current user
-        const user = await prisma.user.findUnique({
-          where: {
-            email: email,
-          },
-        })
+      // Find the current user
+      const user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      })
 
-        // Error happened while finding this user
-        if (error) return done(error)
+      // Error happened while finding this user
+      if (error) return done(error)
 
-        // Not finding this user's account
-        if (!user) return callbackFn(null, false)
+      // Not finding this user's account
+      if (!user) return callbackFn(null, false)
 
-        // User's account exists
-        // Check if the password is the same as the one in database with bcrypt
-        bcrypt.compare(password, user.password).then((res) => {
-          // Wrong password: password !== user.password
-          if (!res) return callbackFn(null, false)
-          // Right password: pass authenticate and return user data
-          return callbackFn(null, user)
-        })
-      } catch (error) {
-        next(error)
-      }
+      // User's account exists
+      // Check if the password is the same as the one in database with bcrypt
+      bcrypt.compare(password, user.password).then((res) => {
+        // Wrong password: password !== user.password
+        if (!res) return callbackFn(null, false)
+        // Right password: pass authenticate and return user data
+        return callbackFn(null, user)
+      })
     }
   )
 )

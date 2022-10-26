@@ -5,11 +5,12 @@ function authenticateUser(req, res, next) {
     if (error || !user) {
       return res.json({ message: 'Unauthorized request' })
     }
-    req.user = user
+
+    if (user) return (req.user = user)
     next()
   }
 
   passport.authenticate('jwt', { session: false }, callbackFn)(req, res, next)
 }
 
-module.exports = authenticateUser
+module.exports = { authenticateUser }
