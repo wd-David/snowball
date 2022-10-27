@@ -9,6 +9,7 @@ const prisma = new PrismaClient()
 const JWTStrategy = passportJWT.Strategy
 const ExtractJWT = passportJWT.ExtractJwt
 
+// Strategy: local
 passport.use(
   new LocalStrategy(
     // User field
@@ -20,7 +21,7 @@ passport.use(
     },
 
     // Authenticate current user
-    async (email, password, callbackFn) => {
+    async (req, email, password, callbackFn) => {
       // Find the current user
       const user = await prisma.user.findUnique({
         where: {
@@ -29,7 +30,7 @@ passport.use(
       })
 
       // Error happened while finding this user
-      if (error) return done(error)
+      // if (error) return done(error)
 
       // Not finding this user's account
       if (!user) return callbackFn(null, false)
@@ -39,6 +40,7 @@ passport.use(
       bcrypt.compare(password, user.password).then((res) => {
         // Wrong password: password !== user.password
         if (!res) return callbackFn(null, false)
+
         // Right password: pass authenticate and return user data
         return callbackFn(null, user)
       })
@@ -46,7 +48,7 @@ passport.use(
   )
 )
 
-// JWT
+// Strategy: JWT
 // Take out JWT from authorization header, bearer
 const jwtOptions = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
@@ -64,22 +66,5 @@ passport.use(
     }
   })
 )
-
-// Serialize user
-// As serializing user, only store user.id
-passport.serializeUser((user, callbackFn) => {
-  callbackFn(null, user.id)
-})
-
-// Deserialize user
-passport.deserializeUser(async (id, callbackFn) => {
-  try {
-    const user = await prisma.user.findUnique(id)
-
-    return cb(null, user.toJSON())
-  } catch (error) {
-    callbackFn(error)
-  }
-})
 
 module.exports = passport
