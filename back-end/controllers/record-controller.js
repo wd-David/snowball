@@ -142,13 +142,9 @@ const recordController = {
   // Get all income records and accept query string
   getIncomeReocrds: async (req, res, next) => {
     try {
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-      // remove above after adding authentication process
-      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
-      const userId = userIds.map(({ id }) => id)[0]
+      const userId = req.user.id
 
-      // Get categoryIds
+      // Get all income category ids
       const result =
         await prisma.$queryRaw`SELECT id FROM "Category" WHERE "mainCategory" = 'Income';`
       const categoryIds = result.map(({ id }) => id)
@@ -156,7 +152,7 @@ const recordController = {
       // Basic query object, without query string
       // const prismaQuery = {
       //   where: {
-      //     userId: 33,
+      //     userId,
       //   },
       // }
 
