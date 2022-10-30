@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 const userController = {
   // User log in
-  // URL: /user/logIn
+  // URL: /users/logIn
   logIn: async (req, res, next) => {
     // Check if there are email and password in req.body
     const { email, password } = req.body
@@ -27,7 +27,7 @@ const userController = {
       const token = jwt.sign(req.user, process.env.JWT_SECRET, {
         expiresIn: '7d',
       })
-      res.json({
+      res.status(200).json({
         token,
       })
     } catch (error) {
@@ -36,10 +36,10 @@ const userController = {
     // #swagger.tags = ['User']
   },
 
-  // user register
+  // User register an account
+  // URL: post /users/register
   register: async (req, res, next) => {
     try {
-      // #swagger.tags = ['User']
       const { email, password } = req.body
       if (!email || !password) return res.json('missing email or password')
 
@@ -55,7 +55,8 @@ const userController = {
             data: { email, password: await bcrypt.hash(password, 10) },
           })
 
-      res.json('successfully register')
+      res.status(201).end()
+      // #swagger.tags = ['User']
     } catch (error) {
       next(error)
     }

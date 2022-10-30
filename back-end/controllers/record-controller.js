@@ -25,7 +25,7 @@ const recordController = {
         },
       })
 
-      res.json('successfully create a new record')
+      res.status(201).end()
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -65,7 +65,7 @@ const recordController = {
         data: { title, amount, note, categoryId },
       })
 
-      res.json('successfully update this record')
+      res.status(204).json('successfully update this record')
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -99,7 +99,7 @@ const recordController = {
         },
       })
 
-      res.json('successfully delete this record')
+      res.status(204).json('successfully delete this record')
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -132,7 +132,7 @@ const recordController = {
           categoryIds
         )});`
 
-      res.json(expenseRecords)
+      res.status(200).json(expenseRecords)
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -165,7 +165,7 @@ const recordController = {
           categoryIds
         )});`
 
-      res.json(incomeRecords)
+      res.status(200).json(incomeRecords)
     } catch (error) {
       next(error)
     }
@@ -191,7 +191,7 @@ const recordController = {
           categoryIds
         )});`
 
-      res.json(savingRecords)
+      res.status(200).json(savingRecords)
     } catch (error) {
       next(error)
     }
