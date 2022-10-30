@@ -14,16 +14,10 @@
 		$Session = 'Active';
 		if (form.type === 'login') {
 			success(`Hi! Welcome back ${form.user}.`);
-			goto('/');
+			goto('/dashboard');
 		} else if (form.type === 'register')
 			success(`Registered successfully! Login to start your journey.`);
 	}
-
-	/**
-	 * TODO:
-	 * 2. Set cookies (user session)
-	 * 3. Need back-end API status code for each scenario
-	 */
 </script>
 
 <div class="hero h-full bg-base-200">

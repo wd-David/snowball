@@ -1,5 +1,6 @@
 import { invalid } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { Token } from '$lib/store';
 
 export const actions: Actions = {
 	login: async ({ request }) => {
@@ -26,6 +27,8 @@ export const actions: Actions = {
 
 			if (response === 'incorrect email or unregistered email')
 				return invalid(400, { email, incorrect: true });
+
+			Token.set(response.token);
 
 			return { success: true, user: email, type: 'login' };
 		} catch (e) {
