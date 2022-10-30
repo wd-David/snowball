@@ -55,6 +55,11 @@ const recordController = {
       })
       theRecord ? theRecord : res.json('the record does not exist')
 
+      // Check if the record is one of the current user's records
+      userId === theRecord.userId
+        ? userId
+        : res.json('this record does not belong to the current user')
+
       // Update this record
       await prisma.record.update({
         where: { id: recordId },
