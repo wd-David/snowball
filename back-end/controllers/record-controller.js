@@ -33,6 +33,41 @@ const recordController = {
     }
   },
 
+  // Edit the record
+  // URL: put /records/:rid
+  putRecord: async (req, res, next) => {
+    try {
+      const recordId = Number(req.params.rid)
+      const { title, amount, note, categoryId } = req.body
+      const userId = req.user.id
+
+      // Check if there are missing data
+      if (!title || !amount || !categoryId)
+        return res.json(
+          'missing title or amount or category id to update this record'
+        )
+
+      // Check if the record is in database
+      const theRecord = await prisma.record.findUnique({
+        where: {
+          id: recordId,
+        },
+      })
+      theRecord ? theRecord : res.json('the record does not exist')
+
+      // Update this record
+      await prisma.record.update({
+        where: { id: recordId },
+        data: { title, amount, note, categoryId },
+      })
+
+      res.json('successfully update this record')
+      // #swagger.tags = ['Expense Record']
+    } catch (error) {
+      next(error)
+    }
+  },
+
   // Get all expense records and accept query string
   getExpenseRecords: async (req, res, next) => {
     try {
@@ -66,37 +101,6 @@ const recordController = {
         )});`
 
       res.json(expenseRecords)
-    } catch (error) {
-      next(error)
-    }
-  },
-
-  // edit a record
-  putRecord: async (req, res, next) => {
-    try {
-      // #swagger.tags = ['Expense Record']
-      const recordId = Number(req.params.rid)
-      const { title, amount, note, categoryId } = req.body
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-
-      if (!title || !amount || !categoryId)
-        return res.json(
-          'missing title or amount or category id to update this record'
-        )
-
-      const theRecord = await prisma.record.findUnique({
-        where: {
-          id: recordId,
-        },
-      })
-      theRecord ? theRecord : res.json('the record does not exist')
-
-      await prisma.record.update({
-        where: { id: recordId },
-        data: { title, amount, note, categoryId, userId: 13 },
-      })
-      res.json('successfully update this record')
     } catch (error) {
       next(error)
     }
