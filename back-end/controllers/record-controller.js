@@ -7,7 +7,6 @@ const recordController = {
   // URL: post /records
   postReocrd: async (req, res, next) => {
     try {
-      console.log(req.user)
       const { title, amount, note, categoryId } = req.body
       const userId = req.user.id
 
@@ -78,6 +77,7 @@ const recordController = {
   deleteRecord: async (req, res, next) => {
     try {
       const recordId = Number(req.params.rid)
+      const userId = req.user.id
 
       // Check if the record is in database
       const theRecord = await prisma.record.findUnique({
