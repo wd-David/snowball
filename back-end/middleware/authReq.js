@@ -6,7 +6,7 @@ function authenticateUser(req, res, next) {
       return res.json({ message: 'Unauthorized request' })
     }
 
-    if (user) return (req.user = user)
+    req.user = user
     next()
   }
 

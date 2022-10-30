@@ -3,13 +3,12 @@ const { Prisma, PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient({ log: ['query'] })
 
 const recordController = {
-  // create a new record
+  // Create a new record
+  // URL: post /records
   postReocrd: async (req, res, next) => {
     try {
-      // #swagger.tags = ['Expense Record']
       const { title, amount, note, categoryId } = req.body
-      // uncommend after adding authentication process
-      // const userId = req.user.id
+      const userId = req.user.id
 
       if (!title || !amount || !categoryId)
         return res.json(
@@ -22,11 +21,86 @@ const recordController = {
           amount,
           note,
           categoryId,
-          userId: 13,
+          userId,
         },
       })
 
       res.json('successfully create a new record')
+      // #swagger.tags = ['Expense Record']
+    } catch (error) {
+      next(error)
+    }
+  },
+
+  // Edit the record
+  // URL: put /records/:rid
+  putRecord: async (req, res, next) => {
+    try {
+      const recordId = Number(req.params.rid)
+      const { title, amount, note, categoryId } = req.body
+      const userId = req.user.id
+
+      // Check if there are missing data
+      if (!title || !amount || !categoryId)
+        return res.json(
+          'missing title or amount or category id to update this record'
+        )
+
+      // Check if the record is in database
+      const theRecord = await prisma.record.findUnique({
+        where: {
+          id: recordId,
+        },
+      })
+      theRecord ? theRecord : res.json('the record does not exist')
+
+      // Check if the record is one of the current user's records
+      userId === theRecord.userId
+        ? userId
+        : res.json('this record does not belong to the current user')
+
+      // Update this record
+      await prisma.record.update({
+        where: { id: recordId },
+        data: { title, amount, note, categoryId },
+      })
+
+      res.json('successfully update this record')
+      // #swagger.tags = ['Expense Record']
+    } catch (error) {
+      next(error)
+    }
+  },
+
+  // Delete the record
+  // URL: delete /records/:rid
+  deleteRecord: async (req, res, next) => {
+    try {
+      const recordId = Number(req.params.rid)
+      const userId = req.user.id
+
+      // Check if the record is in database
+      const theRecord = await prisma.record.findUnique({
+        where: {
+          id: recordId,
+        },
+      })
+      theRecord ? theRecord : res.json('the record does not exist')
+
+      // Check if the record is one of the current user's records
+      userId === theRecord.userId
+        ? userId
+        : res.json('this record does not belong to the current user')
+
+      // Delete this record
+      await prisma.record.delete({
+        where: {
+          id: recordId,
+        },
+      })
+
+      res.json('successfully delete this record')
+      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
@@ -35,15 +109,9 @@ const recordController = {
   // Get all expense records and accept query string
   getExpenseRecords: async (req, res, next) => {
     try {
-      // #swagger.tags = ['Expense Record']
+      const userId = req.user.id
 
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-      // remove above after adding authentication process
-      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
-      const userId = userIds.map(({ id }) => id)[0]
-
-      // Get categoryIds
+      // Get all expense category ids
       const result =
         await prisma.$queryRaw`SELECT id FROM "Category" WHERE NOT "mainCategory" = 'Income' AND NOT "mainCategory" = 'Savings';`
       const categoryIds = result.map(({ id }) => id)
@@ -51,7 +119,7 @@ const recordController = {
       // Basic query object, without query string
       // const prismaQuery = {
       //   where: {
-      //     userId: 33,
+      //     userId,
       //   },
       // }
 
@@ -65,61 +133,7 @@ const recordController = {
         )});`
 
       res.json(expenseRecords)
-    } catch (error) {
-      next(error)
-    }
-  },
-
-  // edit a record
-  putRecord: async (req, res, next) => {
-    try {
       // #swagger.tags = ['Expense Record']
-      const recordId = Number(req.params.rid)
-      const { title, amount, note, categoryId } = req.body
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-
-      if (!title || !amount || !categoryId)
-        return res.json(
-          'missing title or amount or category id to update this record'
-        )
-
-      const theRecord = await prisma.record.findUnique({
-        where: {
-          id: recordId,
-        },
-      })
-      theRecord ? theRecord : res.json('the record does not exist')
-
-      await prisma.record.update({
-        where: { id: recordId },
-        data: { title, amount, note, categoryId, userId: 13 },
-      })
-      res.json('successfully update this record')
-    } catch (error) {
-      next(error)
-    }
-  },
-
-  // delete a expense record
-  deleteRecord: async (req, res, next) => {
-    try {
-      // #swagger.tags = ['Expense Record']
-      const recordId = Number(req.params.rid)
-
-      const theRecord = await prisma.record.findUnique({
-        where: {
-          id: recordId,
-        },
-      })
-      theRecord ? theRecord : res.json('the record does not exist')
-
-      await prisma.record.delete({
-        where: {
-          id: recordId,
-        },
-      })
-      res.json('successfully delete this record')
     } catch (error) {
       next(error)
     }
@@ -128,13 +142,9 @@ const recordController = {
   // Get all income records and accept query string
   getIncomeReocrds: async (req, res, next) => {
     try {
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-      // remove above after adding authentication process
-      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
-      const userId = userIds.map(({ id }) => id)[0]
+      const userId = req.user.id
 
-      // Get categoryIds
+      // Get all income category ids
       const result =
         await prisma.$queryRaw`SELECT id FROM "Category" WHERE "mainCategory" = 'Income';`
       const categoryIds = result.map(({ id }) => id)
@@ -142,7 +152,7 @@ const recordController = {
       // Basic query object, without query string
       // const prismaQuery = {
       //   where: {
-      //     userId: 33,
+      //     userId,
       //   },
       // }
 
@@ -164,13 +174,9 @@ const recordController = {
   // Get all saving records and accept query string
   getSavingRecords: async (req, res, next) => {
     try {
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-      // remove above after adding authentication process
-      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
-      const userId = userIds.map(({ id }) => id)[0]
+      const userId = req.user.id
 
-      // Get categoryIds
+      // Get all saving category ids
       const result =
         await prisma.$queryRaw`SELECT id FROM "Category" WHERE "mainCategory" = 'Savings';`
       const categoryIds = result.map(({ id }) => id)
