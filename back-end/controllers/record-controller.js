@@ -109,15 +109,9 @@ const recordController = {
   // Get all expense records and accept query string
   getExpenseRecords: async (req, res, next) => {
     try {
-      // #swagger.tags = ['Expense Record']
+      const userId = req.user.id
 
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-      // remove above after adding authentication process
-      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
-      const userId = userIds.map(({ id }) => id)[0]
-
-      // Get categoryIds
+      // Get all expense category ids
       const result =
         await prisma.$queryRaw`SELECT id FROM "Category" WHERE NOT "mainCategory" = 'Income' AND NOT "mainCategory" = 'Savings';`
       const categoryIds = result.map(({ id }) => id)
@@ -125,7 +119,7 @@ const recordController = {
       // Basic query object, without query string
       // const prismaQuery = {
       //   where: {
-      //     userId: 33,
+      //     userId,
       //   },
       // }
 
@@ -139,6 +133,7 @@ const recordController = {
         )});`
 
       res.json(expenseRecords)
+      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
