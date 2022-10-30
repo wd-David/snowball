@@ -3,13 +3,13 @@ const { Prisma, PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient({ log: ['query'] })
 
 const recordController = {
-  // create a new record
+  // Create a new record
+  // URL: post /records
   postReocrd: async (req, res, next) => {
     try {
-      // #swagger.tags = ['Expense Record']
+      console.log(req.user)
       const { title, amount, note, categoryId } = req.body
-      // uncommend after adding authentication process
-      // const userId = req.user.id
+      const userId = req.user.id
 
       if (!title || !amount || !categoryId)
         return res.json(
@@ -22,11 +22,12 @@ const recordController = {
           amount,
           note,
           categoryId,
-          userId: 13,
+          userId,
         },
       })
 
       res.json('successfully create a new record')
+      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
