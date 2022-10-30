@@ -174,13 +174,9 @@ const recordController = {
   // Get all saving records and accept query string
   getSavingRecords: async (req, res, next) => {
     try {
-      // uncommend after adding authentication process
-      // const userId = req.user.id
-      // remove above after adding authentication process
-      const userIds = await prisma.$queryRaw`SELECT id FROM "User";`
-      const userId = userIds.map(({ id }) => id)[0]
+      const userId = req.user.id
 
-      // Get categoryIds
+      // Get all saving category ids
       const result =
         await prisma.$queryRaw`SELECT id FROM "Category" WHERE "mainCategory" = 'Savings';`
       const categoryIds = result.map(({ id }) => id)
