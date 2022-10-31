@@ -11,9 +11,11 @@ const recordController = {
       const userId = req.user.id
 
       if (!title || !amount || !categoryId)
-        return res.json(
-          'missing title or amount or category id to create a new expense record'
-        )
+        return res
+          .status(400)
+          .json(
+            'missing title or amount or category id to create a new expense record'
+          )
 
       await prisma.record.create({
         data: {
@@ -25,7 +27,7 @@ const recordController = {
         },
       })
 
-      res.json('successfully create a new record')
+      return res.status(201).end()
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -39,12 +41,13 @@ const recordController = {
       const recordId = Number(req.params.rid)
       const { title, amount, note, categoryId } = req.body
       const userId = req.user.id
+      console.log(userId)
 
       // Check if there are missing data
       if (!title || !amount || !categoryId)
-        return res.json(
-          'missing title or amount or category id to update this record'
-        )
+        return res
+          .status(400)
+          .json('missing title or amount or category id to update this record')
 
       // Check if the record is in database
       const theRecord = await prisma.record.findUnique({
@@ -52,12 +55,13 @@ const recordController = {
           id: recordId,
         },
       })
-      theRecord ? theRecord : res.json('the record does not exist')
+      if (!theRecord) return res.status(400).json('the record does not exist')
 
       // Check if the record is one of the current user's records
-      userId === theRecord.userId
-        ? userId
-        : res.json('this record does not belong to the current user')
+      if (userId !== theRecord.userId)
+        return res
+          .status(400)
+          .json('this record does not belong to the current user')
 
       // Update this record
       await prisma.record.update({
@@ -65,7 +69,7 @@ const recordController = {
         data: { title, amount, note, categoryId },
       })
 
-      res.json('successfully update this record')
+      return res.status(204)
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -85,12 +89,13 @@ const recordController = {
           id: recordId,
         },
       })
-      theRecord ? theRecord : res.json('the record does not exist')
+      if (!theRecord) return res.status(400).json('the record does not exist')
 
       // Check if the record is one of the current user's records
-      userId === theRecord.userId
-        ? userId
-        : res.json('this record does not belong to the current user')
+      if (userId !== theRecord.userId)
+        return res
+          .status(400)
+          .json('this record does not belong to the current user')
 
       // Delete this record
       await prisma.record.delete({
@@ -99,7 +104,7 @@ const recordController = {
         },
       })
 
-      res.json('successfully delete this record')
+      return res.status(204)
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -132,7 +137,7 @@ const recordController = {
           categoryIds
         )});`
 
-      res.json(expenseRecords)
+      return res.status(200).json(expenseRecords)
       // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
@@ -165,7 +170,7 @@ const recordController = {
           categoryIds
         )});`
 
-      res.json(incomeRecords)
+      return res.status(200).json(incomeRecords)
     } catch (error) {
       next(error)
     }
@@ -191,7 +196,7 @@ const recordController = {
           categoryIds
         )});`
 
-      res.json(savingRecords)
+      return res.status(200).json(savingRecords)
     } catch (error) {
       next(error)
     }
