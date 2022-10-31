@@ -8,3 +8,7 @@ Create `.env.prod` under the back-end folder and remember to update the `DATABAS
 
 - `pnpm start`: command to run in production
 - `pnpm start:docker`: start the dockerized Express app with Postgres
+
+## Fly.io
+
+TBD
