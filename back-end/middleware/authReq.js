@@ -3,7 +3,7 @@ const passport = require('../config/passport')
 function authenticateUser(req, res, next) {
   const callbackFn = (error, user) => {
     if (error || !user) {
-      return res.json({ message: 'Unauthorized request' })
+      return res.status(401).json({ message: 'Unauthorized request' })
     }
 
     req.user = user

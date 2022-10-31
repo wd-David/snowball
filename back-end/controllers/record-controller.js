@@ -11,9 +11,11 @@ const recordController = {
       const userId = req.user.id
 
       if (!title || !amount || !categoryId)
-        return res.json(
-          'missing title or amount or category id to create a new expense record'
-        )
+        return res
+          .status(400)
+          .json(
+            'missing title or amount or category id to create a new expense record'
+          )
 
       await prisma.record.create({
         data: {
@@ -42,9 +44,9 @@ const recordController = {
 
       // Check if there are missing data
       if (!title || !amount || !categoryId)
-        return res.json(
-          'missing title or amount or category id to update this record'
-        )
+        return res
+          .status(400)
+          .json('missing title or amount or category id to update this record')
 
       // Check if the record is in database
       const theRecord = await prisma.record.findUnique({
@@ -52,12 +54,14 @@ const recordController = {
           id: recordId,
         },
       })
-      theRecord ? theRecord : res.json('the record does not exist')
+      theRecord ? theRecord : res.status(400).json('the record does not exist')
 
       // Check if the record is one of the current user's records
       userId === theRecord.userId
         ? userId
-        : res.json('this record does not belong to the current user')
+        : res
+            .status(400)
+            .json('this record does not belong to the current user')
 
       // Update this record
       await prisma.record.update({
@@ -85,12 +89,14 @@ const recordController = {
           id: recordId,
         },
       })
-      theRecord ? theRecord : res.json('the record does not exist')
+      theRecord ? theRecord : res.status(400).json('the record does not exist')
 
       // Check if the record is one of the current user's records
       userId === theRecord.userId
         ? userId
-        : res.json('this record does not belong to the current user')
+        : res
+            .status(400)
+            .json('this record does not belong to the current user')
 
       // Delete this record
       await prisma.record.delete({
