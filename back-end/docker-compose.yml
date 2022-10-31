@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+  snowball:
+    build: .
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.prod
+    networks:
+      - snowball
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env.prod
+    volumes:
+      - postgres-dev:/var/lib/postgresql/data
+    networks:
+      - snowball
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 5050:8080
+
+volumes:
+  postgres-dev:
+    driver: local
+
+networks:
+  snowball:
+    name: snowball
