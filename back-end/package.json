@@ -5,10 +5,11 @@
   "main": "app.js",
   "scripts": {
     "dev": "pnpm dev:docker && nodemon app.js",
-    "dev:docker": "docker-compose -f postgres.yml down && docker-compose -f postgres.yml up -d",
+    "dev:docker": "docker-compose down && docker-compose -f postgres.yml up -d",
     "dev:dbinit": "prisma migrate dev && prisma db seed",
-    "swagger-autogen": "node swagger.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "prisma migrate deploy && nodemon app.js",
+    "start:docker": "docker compose down && docker compose up --build -d",
+    "swagger-autogen": "node swagger.js"
   },
   "keywords": [],
   "author": "",
