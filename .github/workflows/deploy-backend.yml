@@ -1,0 +1,18 @@
+name: Fly Deploy snowball back-end
+on:
+  pull_request:
+    paths:
+      - 'back-end/**'
+    types:
+      - closed
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy

@@ -1,2 +1,6 @@
 node_modules
+.env*
+.gitignore
+docker-compose.yml
 postgres.yml
+fly.toml
