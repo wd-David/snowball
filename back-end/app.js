@@ -3,7 +3,6 @@ const express = require('express')
 const passport = require('./config/passport')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger_output.json')
 
 const routes = require('./routes')
 
@@ -29,7 +28,5 @@ app.use(
     },
   })
 )
-
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 module.exports = app

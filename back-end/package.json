@@ -8,8 +8,7 @@
     "dev:docker": "docker-compose down && docker-compose -f postgres.yml up -d",
     "dev:dbinit": "prisma migrate dev && prisma db seed",
     "start": "prisma migrate deploy && nodemon app.js",
-    "start:docker": "docker compose down && docker compose up --build -d",
-    "swagger-autogen": "node swagger.js"
+    "start:docker": "docker compose down && docker compose up --build -d"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +24,6 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "swagger-autogen": "^2.21.7",
     "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
