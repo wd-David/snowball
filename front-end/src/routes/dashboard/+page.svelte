@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { Session } from '$lib/store';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -15,10 +13,10 @@
 	const currentMonth = new Date().getMonth() + 1;
 	const currentYear = new Date().getFullYear();
 
-  /**
-   * Filter current month expense records
-   * @param records
-   */
+	/**
+	 * Filter current month expense records
+	 * @param records
+	 */
 	function getCurrentMonthRecord(records: ExpenseRecord[]): ExpenseRecord[] {
 		return records.filter(({ createdAt }) => {
 			const expenseMonth = new Date(createdAt).getMonth() + 1;
@@ -33,8 +31,6 @@
 
 	let spent = 2567;
 	let earned = 5878;
-
-	$: if ($Session !== 'Active') goto('/login');
 </script>
 
 <div class="overview-container p-4">

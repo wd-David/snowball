@@ -1,23 +1,11 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
-	import { success } from '$lib/toast';
-	import { Session } from '$lib/store';
 
 	export let form: ActionData & {
 		incorrect: boolean;
 		registered: boolean;
 	};
-
-	$: if (form?.success) {
-		$Session = 'Active';
-		if (form.type === 'login') {
-			success(`Hi! Welcome back ${form.user}.`);
-			goto('/dashboard');
-		} else if (form.type === 'register')
-			success(`Registered successfully! Login to start your journey.`);
-	}
 </script>
 
 <div class="hero h-full bg-base-200">
