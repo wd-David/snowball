@@ -40,7 +40,6 @@ const recordController = {
       const recordId = Number(req.params.rid)
       const { title, amount, note, categoryId } = req.body
       const userId = req.user.id
-      console.log(userId)
 
       // Check if there are missing data
       if (!title || !amount || !categoryId)
