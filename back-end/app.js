@@ -3,6 +3,7 @@ const express = require('express')
 const passport = require('./config/passport')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./src/swagger.json')
 
 const routes = require('./routes')
 
@@ -19,14 +20,6 @@ app.use(routes)
 app.listen(port)
 
 // OpenAPI UI
-app.use(
-  '/',
-  swaggerUi.serve,
-  swaggerUi.setup(null, {
-    swaggerOptions: {
-      url: 'http://localhost:3000',
-    },
-  })
-)
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 module.exports = app

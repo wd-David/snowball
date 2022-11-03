@@ -1,0 +1,488 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Snowball API",
+    "description": "Simple RESTful API in Express.js app.",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Local API server"
+    },
+    {
+      "url": "https://snowball.fly.dev/",
+      "description": "Snowball Production"
+    }
+  ],
+  "paths": {
+    "/users/logIn": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User login route",
+        "description": "If successfully login, server will return a token.",
+        "requestBody": {
+          "description": "A JSON object containing user's email and psssword",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "email": "wolf@forest.com",
+                "password": "iliveinCanada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successfully login and return token",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token": "4687864541635fwf3q2rfewafoiqu3whjrfuie.chiwfhoiejfoewijfp346846"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client side error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "Error Situations": "Error Message",
+                  "Wrong data type of the password": "data type of the password should be String.",
+                  "Miss email or password in req.body": "missing email or password",
+                  "There is no the eamil address in database": "incorrect email address or this user has not registered an account."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User register route",
+        "description": "",
+        "requestBody": {
+          "description": "A JSON object containing user's email and psssword",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "email": "wolf@forest.com",
+                "password": "iliveinCanada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "user successfully registered an account"
+          },
+          "400": {
+            "description": "Client side error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "Error Situations": "Error Message",
+                  "Wrong data type of password": "data type of the password should be String.",
+                  "Miss email or password in req.body": "missing email or password",
+                  "The email has already been registered": "the email has been registered"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/categories": {
+      "get": {
+        "tags": ["Category"],
+        "summary": "Get all categories route",
+        "description": "Get all categories, including main categories and sub categories",
+        "responses": {
+          "200": {
+            "description": "successfully get all categories",
+            "content": {
+              "application/json": {
+                "example": {
+                  "categories": [
+                    {
+                      "id": 276,
+                      "mainCategory": "Income",
+                      "subCategory": "W2 Income"
+                    },
+                    {
+                      "id": 277,
+                      "mainCategory": "Income",
+                      "subCategory": "Bonuses"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/records": {
+      "post": {
+        "tags": ["Record"],
+        "summary": "User create a new record route",
+        "description": "",
+        "requestBody": {
+          "description": "A JSON object containing title, amount, and note(option), categoryId",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Record"
+              },
+              "example": {
+                "title": "Harry Poter Novels",
+                "amount": 777,
+                "note": "Christmas gift for kids",
+                "userId": 7,
+                "categoryId": 9
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "user successfully created a record"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/records/{:rid}": {
+      "put": {
+        "tags": ["Record"],
+        "summary": "Update the specific record route",
+        "description": "As user log in, he/she can update the specific record.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rid",
+            "description": "The record id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new record data to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Record"
+              },
+              "example": {
+                "title": "M1 Pro MacBook",
+                "amount": 2000,
+                "note": "Christmas gift for kids",
+                "userId": 7,
+                "categoryId": 21
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Client side error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "Error Situations": "Error Message",
+                  "Miss title or amount or categoryId in req.body": "missing title or amount or category id to update this record",
+                  "There is no the record data in ": "the record does not exist",
+                  "The record doesn't belong to the current user": "this record does not belong to the current user"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Record"],
+        "summary": "Delete the specific record route",
+        "description": "As user log in, he/she can delete the specific record.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rid",
+            "description": "The record id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 3
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Client side error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "Error Situations": "Error Message",
+                  "There is no the record data in ": "the record does not exist",
+                  "The record doesn't belong to the current user": "this record does not belong to the current user"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/records/inocme": {
+      "get": {
+        "tags": ["Record"],
+        "summary": "Get the current user's all income records route",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "successfully get all income records",
+            "content": {
+              "application/json": {
+                "example": {
+                  "income records": [
+                    {
+                      "id": 23,
+                      "title": "bonus",
+                      "amount": 70000,
+                      "note": "half year bonus",
+                      "userId": 7,
+                      "categoryId": 13
+                    },
+                    {
+                      "id": 24,
+                      "title": "ETF No.4 investment income",
+                      "amount": 8000,
+                      "note": "tax 600",
+                      "userId": 7,
+                      "categoryId": 17
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/records/expense": {
+      "get": {
+        "tags": ["Record"],
+        "summary": "Get the current user's all expense records route",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "successfully get all expense records",
+            "content": {
+              "application/json": {
+                "example": {
+                  "expense records": [
+                    {
+                      "id": 34,
+                      "title": "white t-shirt",
+                      "amount": 60,
+                      "note": "size S",
+                      "userId": 7,
+                      "categoryId": 39
+                    },
+                    {
+                      "id": 35,
+                      "title": "baby's shoes",
+                      "amount": 70,
+                      "note": "size 2",
+                      "userId": 7,
+                      "categoryId": 39
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/records/saving": {
+      "get": {
+        "tags": ["Record"],
+        "summary": "Get the current user's all saving records route",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "successfully get all saving records",
+            "content": {
+              "application/json": {
+                "example": {
+                  "income records": [
+                    {
+                      "id": 10,
+                      "title": "investing fund",
+                      "amount": 2000,
+                      "note": "October",
+                      "userId": 7,
+                      "categoryId": 19
+                    },
+                    {
+                      "id": 13,
+                      "title": "emergency fund",
+                      "amount": 800,
+                      "note": "October",
+                      "userId": 7,
+                      "categoryId": 18
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "User": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "dolphin@ocean.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "Category": {
+        "properties": {
+          "mainCategory": {
+            "type": "string",
+            "example": "Income"
+          },
+          "subCategory": {
+            "type": "string",
+            "example": "Investment income"
+          }
+        },
+        "required": ["mainCategory", "subCategory"]
+      },
+      "Record": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Harry Poter Novels"
+          },
+          "amount": {
+            "type": "integer",
+            "example": 777
+          },
+          "note": {
+            "type": "string",
+            "example": "Christmas gift for kids"
+          },
+          "userId": {
+            "type": "integer",
+            "example": 7
+          },
+          "categoryId": {
+            "type": "integer",
+            "example": 9
+          }
+        },
+        "required": ["title", "amount", "userId", "categoryId"]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer schema.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "User",
+      "description": ""
+    },
+    {
+      "name": "Category",
+      "description": ""
+    },
+    {
+      "name": "Record",
+      "description": ""
+    }
+  ]
+}
