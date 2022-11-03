@@ -28,7 +28,6 @@ const recordController = {
       })
 
       return res.status(201).end()
-      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
@@ -41,7 +40,6 @@ const recordController = {
       const recordId = Number(req.params.rid)
       const { title, amount, note, categoryId } = req.body
       const userId = req.user.id
-      console.log(userId)
 
       // Check if there are missing data
       if (!title || !amount || !categoryId)
@@ -70,7 +68,6 @@ const recordController = {
       })
 
       return res.status(204)
-      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
@@ -105,13 +102,13 @@ const recordController = {
       })
 
       return res.status(204)
-      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
   },
 
   // Get all expense records and accept query string
+  // URL: get /records/expense
   getExpenseRecords: async (req, res, next) => {
     try {
       const userId = req.user.id
@@ -138,13 +135,13 @@ const recordController = {
         )});`
 
       return res.status(200).json(expenseRecords)
-      // #swagger.tags = ['Expense Record']
     } catch (error) {
       next(error)
     }
   },
 
   // Get all income records and accept query string
+  // URL: get /records/income
   getIncomeReocrds: async (req, res, next) => {
     try {
       const userId = req.user.id
@@ -177,6 +174,7 @@ const recordController = {
   },
 
   // Get all saving records and accept query string
+  // URL: get /records/saving
   getSavingRecords: async (req, res, next) => {
     try {
       const userId = req.user.id

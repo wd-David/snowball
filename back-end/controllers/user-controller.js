@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 const userController = {
   // User log in
-  // URL: /users/logIn
+  // URL: post /users/logIn
   logIn: async (req, res, next) => {
     // Check if there are email and password in req.body
     const { email, password } = req.body
@@ -39,7 +39,6 @@ const userController = {
     } catch (error) {
       next(error)
     }
-    // #swagger.tags = ['User']
   },
 
   // User register an account
@@ -65,7 +64,6 @@ const userController = {
       }
 
       return res.status(201).end()
-      // #swagger.tags = ['User']
     } catch (error) {
       next(error)
     }
