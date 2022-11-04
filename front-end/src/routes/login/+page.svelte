@@ -1,29 +1,11 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
-	import { success } from '$lib/toast';
-	import { Session } from '$lib/store';
 
 	export let form: ActionData & {
 		incorrect: boolean;
 		registered: boolean;
 	};
-
-	$: if (form?.success) {
-		$Session = 'Active';
-		if (form.type === 'login') {
-			success(`Hi! Welcome back ${form.user}.`);
-			goto('/');
-		} else if (form.type === 'register')
-			success(`Registered successfully! Login to start your journey.`);
-	}
-
-	/**
-	 * TODO:
-	 * 2. Set cookies (user session)
-	 * 3. Need back-end API status code for each scenario
-	 */
 </script>
 
 <div class="hero h-full bg-base-200">
@@ -32,7 +14,7 @@
 			<h1 class="text-5xl font-bold">Login now!</h1>
 			<p class="py-6">Start your personal accounting right away.</p>
 		</div>
-		<div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+		<div class="card w-full max-w-sm flex-shrink-0 bg-base-100 shadow-2xl">
 			<form class="card-body" method="POST" use:enhance>
 				<div class="form-control">
 					<label for="email" class="label">
@@ -43,7 +25,7 @@
 						type="email"
 						required
 						placeholder="email"
-						class="input input-bordered"
+						class="input-bordered input"
 						value={form?.email ?? ''}
 					/>
 				</div>
@@ -56,16 +38,16 @@
 						type="text"
 						required
 						placeholder="password"
-						class="input input-bordered"
+						class="input-bordered input"
 						value={form?.password ?? ''}
 					/>
 				</div>
 				<p class="text-error" class:hidden={!form?.missing}>The email field is required</p>
 				<p class="text-error" class:hidden={!form?.incorrect}>Invalid credentials!</p>
 				<p class="text-error" class:hidden={!form?.registered}>This email has been registered</p>
-				<div class="grid grid-cols-2 gap-2 mt-6">
-					<button type="submit" class="btn btn-primary" formaction="?/login">Login</button>
-					<button type="submit" class="btn btn-primary" formaction="?/register">Register</button>
+				<div class="mt-6 grid grid-cols-2 gap-2">
+					<button type="submit" class="btn-primary btn" formaction="?/login">Login</button>
+					<button type="submit" class="btn-primary btn" formaction="?/register">Register</button>
 				</div>
 			</form>
 		</div>

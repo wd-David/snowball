@@ -1,5 +1,5 @@
 <script>
-	import { Session } from '$lib/store';
+	import { page } from '$app/stores';
 </script>
 
 <header class="navbar border-b-2">
@@ -8,13 +8,18 @@
 	</div>
 	<nav class="navbar-center">
 		<ul class="menu menu-horizontal">
-			{#if $Session === 'Active'}
+			{#if $page.data.user}
 				<li><a href="/">Overview</a></li>
 				<li><a href="/">About</a></li>
+				<li>
+					<form action="/logout" method="POST">
+						<button type="submit">Log out</button>
+					</form>
+				</li>
 			{/if}
 		</ul>
 	</nav>
-	{#if $Session === 'Active'}
+	{#if $page.data.user}
 		<div class="navbar-end">
 			<button class="btn-ghost btn-circle btn" aria-label="search">
 				<svg

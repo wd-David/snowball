@@ -8,7 +8,12 @@ const config = {
 	preprocess: preprocess({ postcss: true }),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		files: {
+			hooks: {
+				server: 'src/hooks.server'
+			}
+		}
 	}
 };
 

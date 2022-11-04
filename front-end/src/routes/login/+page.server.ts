@@ -1,8 +1,16 @@
-import { invalid } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import { invalid, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+import { env } from '$env/dynamic/private';
+
+export const load: PageServerLoad = async ({ locals }) => {
+	// redirect user if logged in
+	if (locals.user) {
+		throw redirect(302, '/dashboard');
+	}
+};
 
 export const actions: Actions = {
-	login: async ({ request }) => {
+	login: async ({ request, cookies }) => {
 		const data = await request.formData();
 
 		const email = data.get('email') as string;
@@ -15,22 +23,47 @@ export const actions: Actions = {
 			return invalid(400, { password, missing: true });
 		}
 
-		try {
-			const res = await fetch(`http://localhost:3000/users/logIn`, {
-				method: 'post',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password })
-			});
+		const res = await fetch(`${env.SNOWBALL_BE_URL}/users/logIn`, {
+			method: 'post',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email, password })
+		});
 
-			const response = await res.json();
+		// Unauthorized
+		if (res.status === 401) return invalid(401, { incorrect: true });
 
-			if (response === 'incorrect email or unregistered email')
-				return invalid(400, { email, incorrect: true });
+		const { token } = await res.json();
 
-			return { success: true, user: email, type: 'login' };
-		} catch (e) {
-			throw Error('something went wrong');
-		}
+		cookies.set('session', token, {
+			// send cookie for every page
+			path: '/',
+			// server side only cookie so you can't use `document.cookie`
+			httpOnly: true,
+			// only requests from same site can send cookies
+			// https://developer.mozilla.org/en-US/docs/Glossary/CSRF
+			sameSite: 'strict',
+			// only sent over HTTPS in production
+			secure: process.env.NODE_ENV === 'production',
+			// set cookie to expire after a month
+			maxAge: 60 * 60 * 24 * 30
+		});
+
+		cookies.set('user', email, {
+			// send cookie for every page
+			path: '/',
+			// server side only cookie so you can't use `document.cookie`
+			httpOnly: true,
+			// only requests from same site can send cookies
+			// https://developer.mozilla.org/en-US/docs/Glossary/CSRF
+			sameSite: 'strict',
+			// only sent over HTTPS in production
+			secure: process.env.NODE_ENV === 'production',
+			// set cookie to expire after a month
+			maxAge: 60 * 60 * 24 * 30
+		});
+
+		// redirect the user
+		throw redirect(302, '/dashboard');
 	},
 	register: async ({ request }) => {
 		const data = await request.formData();
@@ -45,21 +78,15 @@ export const actions: Actions = {
 			return invalid(400, { password, missing: true });
 		}
 
-		try {
-			const res = await fetch(`http://localhost:3000/users/register`, {
-				method: 'post',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password })
-			});
+		const res = await fetch(`${env.SNOWBALL_BE_URL}/users/register`, {
+			method: 'post',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email, password })
+		});
 
-			const data = await res.json();
+		// Unauthorized
+		if (res.status === 400) return invalid(400, { email, registered: true });
 
-			if (data === 'this email has been registered')
-				return invalid(400, { email, registered: true });
-
-			return { success: true, user: email, type: 'register' };
-		} catch (e) {
-			throw Error('something went wrong');
-		}
+		throw redirect(303, '/login');
 	}
 };

@@ -4,8 +4,8 @@ import type { UserConfig } from 'vite';
 const config: UserConfig = {
 	plugins: [sveltekit()],
 	optimizeDeps: {
-    include: ['@zerodevx/svelte-toast']
-  }
+		include: ['@zerodevx/svelte-toast']
+	}
 };
 
 export default config;
