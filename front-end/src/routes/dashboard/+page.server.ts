@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { env } from '$env/dynamic/private';
 
 export const load: PageServerLoad = async ({ fetch, locals }) => {
 	// redirect user if not logged in
@@ -7,10 +8,10 @@ export const load: PageServerLoad = async ({ fetch, locals }) => {
 		throw redirect(302, '/login');
 	}
 
-	const categoriesUrl = 'http://localhost:3000/categories';
-	const expensesUrl = 'http://localhost:3000/records/saving';
-	const incomesUrl = 'http://localhost:3000/records/income';
-	const savingsUrl = 'http://localhost:3000/records/saving';
+	const categoriesUrl = `${env.SNOWBALL_BE_URL}/categories`;
+	const expensesUrl = `${env.SNOWBALL_BE_URL}/records/saving`;
+	const incomesUrl = `${env.SNOWBALL_BE_URL}/records/income`;
+	const savingsUrl = `${env.SNOWBALL_BE_URL}/records/saving`;
 
 	const resArray = await Promise.all([
 		fetch(categoriesUrl),

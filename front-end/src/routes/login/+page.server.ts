@@ -1,5 +1,6 @@
 import { invalid, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import { env } from '$env/dynamic/private';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	// redirect user if logged in
@@ -22,7 +23,7 @@ export const actions: Actions = {
 			return invalid(400, { password, missing: true });
 		}
 
-		const res = await fetch(`http://localhost:3000/users/logIn`, {
+		const res = await fetch(`${env.SNOWBALL_BE_URL}/users/logIn`, {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email, password })
@@ -77,7 +78,7 @@ export const actions: Actions = {
 			return invalid(400, { password, missing: true });
 		}
 
-		const res = await fetch(`http://localhost:3000/users/register`, {
+		const res = await fetch(`${env.SNOWBALL_BE_URL}/users/register`, {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email, password })
