@@ -3,8 +3,8 @@
 	<div class="hero-content text-center text-neutral-content">
 		<div class="max-w-md">
 			<h1 class="mb-5 text-8xl font-bold">Snowball</h1>
-			<p class="mb-5 text-3xl whitespace-nowrap">Blazingly fast personal accounting.</p>
-			<a href="/login" class="btn btn-lg btn-primary">Get Started</a>
+			<p class="mb-5 whitespace-nowrap text-3xl">Blazingly fast personal accounting.</p>
+			<a href="/login" class="btn-primary btn-lg btn">Get Started</a>
 		</div>
 	</div>
 </div>

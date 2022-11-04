@@ -3,7 +3,7 @@
 // and what to do when importing types
 declare namespace App {
 	interface Locals {
-		user: string
+		user: string;
 	}
 	// interface PageData {}
 	// interface Error {}
@@ -11,19 +11,18 @@ declare namespace App {
 }
 
 interface Categories {
-	id: number
-	mainCategory: string
-	subCategory: string
+	id: number;
+	mainCategory: string;
+	subCategory: string;
 }
 
 interface ExpenseRecord {
-	id: number
-	title: string
-	amount: string
-	note: string
-	createdAt: string
-	updatedAt: string
-	userId: number
-	categoryId: number
+	id: number;
+	title: string;
+	amount: string;
+	note: string;
+	createdAt: string;
+	updatedAt: string;
+	userId: number;
+	categoryId: number;
 }
-

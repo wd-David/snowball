@@ -11,10 +11,10 @@ const config = {
 		adapter: adapter(),
 		files: {
 			hooks: {
-        server: 'src/hooks.server'
+				server: 'src/hooks.server'
 			}
 		}
-	},
+	}
 };
 
 export default config;
