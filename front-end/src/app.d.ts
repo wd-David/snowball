@@ -19,10 +19,14 @@ interface Categories {
 interface ExpenseRecord {
 	id: number;
 	title: string;
-	amount: string;
+	amount: number;
 	note: string;
 	createdAt: string;
 	updatedAt: string;
 	userId: number;
 	categoryId: number;
+}
+
+interface RecordsByMonth {
+	[month: number]: { records: ExpenseRecord[]; amount: number };
 }

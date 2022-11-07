@@ -21,5 +21,11 @@ export const load: PageServerLoad = async ({ fetch, locals }) => {
 	]);
 	const [categories, expenses, incomes, savings] = resArray.map(async (res) => await res.json());
 
-	return { categories, expenses, incomes, savings, user: locals.user };
+	return { categories, expenses, incomes, savings, user: locals.user } as {
+		categories: Promise<Categories[]>;
+		expenses: Promise<ExpenseRecord[]>;
+		incomes: Promise<ExpenseRecord[]>;
+		savings: Promise<ExpenseRecord[]>;
+		user: string;
+	};
 };
