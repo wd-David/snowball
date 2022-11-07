@@ -215,6 +215,37 @@
         "responses": {
           "201": {
             "description": "user successfully created a record"
+          },
+          "400": {
+            "description": "Client side error",
+            "content": {
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Post record failed",
+                    "errors": [
+                      {
+                        "title": "Require reocrd title, amount or categoryId",
+                        "field_errors": {
+                          "record": "required",
+                          "amount": "required",
+                          "categoryId": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "title": "string",
+                          "amount": "number",
+                          "categoryId": "number"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -268,12 +299,50 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "Miss title or amount or categoryId in req.body": "missing title or amount or category id to update this record",
-                  "There is no the record data in ": "the record does not exist",
-                  "The record doesn't belong to the current user": "this record does not belong to the current user"
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Put record failed",
+                    "errors": [
+                      {
+                        "tile": "Require reocrd id",
+                        "field_errors": {
+                          "recordId": "required"
+                        }
+                      },
+                      {
+                        "title": "Require reocrd id, title, amount or categoryId",
+                        "field_errors": {
+                          "recordId": "required",
+                          "title": "required",
+                          "amount": "required",
+                          "categoryId": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "recordId": "number",
+                          "title": "string",
+                          "amount": "number",
+                          "categoryId": "number"
+                        }
+                      },
+                      {
+                        "title": "Record not exist",
+                        "field_errors": {
+                          "record": "not exist"
+                        }
+                      },
+                      {
+                        "title": "Invalid user",
+                        "field_errors": {
+                          "userId": "not theRecord.userId"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -308,11 +377,38 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "There is no the record data in ": "the record does not exist",
-                  "The record doesn't belong to the current user": "this record does not belong to the current user"
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Delete record failed",
+                    "errors": [
+                      {
+                        "tile": "Require reocrd id",
+                        "field_errors": {
+                          "recordId": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "recordId": "number"
+                        }
+                      },
+                      {
+                        "title": "Record not exist",
+                        "field_errors": {
+                          "record": "not exist"
+                        }
+                      },
+                      {
+                        "title": "Invalid user",
+                        "field_errors": {
+                          "userId": "not theRecord.userId"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
