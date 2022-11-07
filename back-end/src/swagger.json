@@ -41,7 +41,7 @@
           "200": {
             "description": "successfully login and return token",
             "content": {
-              "application/json": {
+              "token": {
                 "example": {
                   "token": "4687864541635fwf3q2rfewafoiqu3whjrfuie.chiwfhoiejfoewijfp346846"
                 }
@@ -51,12 +51,35 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "Wrong data type of the password": "data type of the password should be String.",
-                  "Miss email or password in req.body": "missing email or password",
-                  "There is no the eamil address in database": "incorrect email address or this user has not registered an account."
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Login failed",
+                    "errors": [
+                      {
+                        "title": "Require email or password",
+                        "field_errors": {
+                          "email": "required",
+                          "password": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "email": "string",
+                          "password": "string"
+                        }
+                      },
+                      {
+                        "title": "Incorrect email or password",
+                        "field_errors": {
+                          "email": "incorrect",
+                          "password": "incorrect"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -93,12 +116,34 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "Wrong data type of password": "data type of the password should be String.",
-                  "Miss email or password in req.body": "missing email or password",
-                  "The email has already been registered": "the email has been registered"
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Register failed",
+                    "errors": [
+                      {
+                        "title": "Require email or password",
+                        "field_errors": {
+                          "email": "required",
+                          "password": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "email": "string",
+                          "password": "string"
+                        }
+                      },
+                      {
+                        "title": "Email is used",
+                        "field_errors": {
+                          "email": "used"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }

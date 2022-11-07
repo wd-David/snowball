@@ -8,10 +8,30 @@ const userController = {
   // User log in
   // URL: post /users/logIn
   logIn: async (req, res, next) => {
-    // Check if there are email and password in req.body
     const { email, password } = req.body
+
+    // Check if there are email and password in req.body
     if (!email || !password)
-      return res.status(400).json(`missing user's email or password`)
+      return res.status(400).json({
+        type: 'Login failed',
+        title: 'Require email or password',
+        field_errors: {
+          email: 'required',
+          password: 'required',
+        },
+      })
+
+    // Check data type of the email and password
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({
+        type: 'Login failed',
+        title: 'Incorrect data type',
+        field_errors: {
+          email: 'string',
+          password: 'string',
+        },
+      })
+    }
 
     try {
       // Check if the current user has registered an account
@@ -21,12 +41,16 @@ const userController = {
         },
       })
 
-      if (!user)
-        return res
-          .status(400)
-          .json(
-            'Incorrect email address or this user has not registered an account.'
-          )
+      if (!user) {
+        return res.status(400).json({
+          type: 'Login failed',
+          title: 'Incorrect email or password',
+          field_errors: {
+            email: 'incorrect',
+            password: 'incorrect',
+          },
+        })
+      }
 
       // Sign a token
       const token = jwt.sign(req.user, process.env.JWT_SECRET, {
@@ -44,11 +68,32 @@ const userController = {
   // User register an account
   // URL: post /users/register
   register: async (req, res, next) => {
-    try {
-      const { email, password } = req.body
-      if (!email || !password)
-        return res.status(400).json('missing email or password')
+    const { email, password } = req.body
 
+    // Check if there are email and password in req.body
+    if (!email || !password)
+      return res.status(400).json({
+        type: 'Register failed',
+        title: 'Require email or password',
+        field_errors: {
+          email: 'required',
+          password: 'required',
+        },
+      })
+
+    // Check data type of the email and password
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({
+        type: 'Register failed',
+        title: 'Incorrect data type',
+        field_errors: {
+          email: 'string',
+          password: 'string',
+        },
+      })
+    }
+
+    try {
       // Check if the email address has been registered
       const user = await prisma.user.findUnique({
         where: {
@@ -60,7 +105,13 @@ const userController = {
           data: { email, password: await bcrypt.hash(password, 10) },
         })
       } else if (user) {
-        return res.status(400).json('this email has been registered')
+        return res.status(400).json({
+          type: 'Register failed',
+          title: 'Email is used',
+          field_errors: {
+            email: 'used',
+          },
+        })
       }
 
       return res.status(201).end()
