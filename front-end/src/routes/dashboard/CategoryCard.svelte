@@ -6,9 +6,9 @@
 
 <div class="card border-2 shadow-lg">
 	<div class="card-body">
-		<div class="flex justify-between pb-2">
+		<div class="flex justify-between gap-4 pb-2">
 			<slot name="svg" />
-			<p class="flex-grow-0">
+			<p class="flex-grow-0 whitespace-nowrap">
 				{#if diffRatio > 0}
 					<span class="text-green-600">+{diffRatio}%</span>
 				{:else}
@@ -17,7 +17,7 @@
 				vs last 30 days
 			</p>
 		</div>
-		<div class="card-actions flex-col mt-auto">
+		<div class="card-actions mt-auto flex-col">
 			<h2 class="card-title">+${totalAmount}</h2>
 			<p class="text-base text-gray-500">{category} -></p>
 		</div>

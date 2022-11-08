@@ -13,7 +13,7 @@
 
 <div class="wrapper bg-base-100">
 	<Header />
-	<main>
+	<main class="mt-6">
 		<slot />
 	</main>
 </div>
@@ -35,7 +35,6 @@
 		}
 		main {
 			grid-area: main;
-			margin-block-start: clamp(2rem, 4vw, 3rem);
 		}
 	}
 </style>
