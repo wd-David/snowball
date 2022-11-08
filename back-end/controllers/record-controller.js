@@ -114,8 +114,9 @@ const recordController = {
         },
       })
 
-      // !theRecord: {}
-      if (theRecord === 'null') {
+      // theRecord should be {}, but somehow it's null
+      // if (Object.keys(theRecord).length === 0)
+      if (!theRecord) {
         return res.status(400).json({
           type: 'Put record failed',
           title: 'Record not exist',
@@ -182,8 +183,10 @@ const recordController = {
           id: recordId,
         },
       })
-      // !theRecord: {}
-      if (theRecord === 'null') {
+
+      // theRecord should be {}, but somehow it's null
+      // if (Object.keys(theRecord).length === 0)
+      if (!theRecord) {
         return res.status(400).json({
           type: 'Delete record failed',
           title: 'Record not exist',
