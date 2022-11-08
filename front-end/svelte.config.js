@@ -13,7 +13,8 @@ const config = {
 			hooks: {
 				server: 'src/hooks.server'
 			}
-		}
+		},
+		outDir: 'public'
 	}
 };
 
