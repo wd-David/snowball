@@ -41,7 +41,7 @@
           "200": {
             "description": "successfully login and return token",
             "content": {
-              "application/json": {
+              "token": {
                 "example": {
                   "token": "4687864541635fwf3q2rfewafoiqu3whjrfuie.chiwfhoiejfoewijfp346846"
                 }
@@ -51,12 +51,35 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "Wrong data type of the password": "data type of the password should be String.",
-                  "Miss email or password in req.body": "missing email or password",
-                  "There is no the eamil address in database": "incorrect email address or this user has not registered an account."
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Login failed",
+                    "errors": [
+                      {
+                        "title": "Require email or password",
+                        "field_errors": {
+                          "email": "required",
+                          "password": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "email": "string",
+                          "password": "string"
+                        }
+                      },
+                      {
+                        "title": "Incorrect email or password",
+                        "field_errors": {
+                          "email": "incorrect",
+                          "password": "incorrect"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -93,12 +116,34 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "Wrong data type of password": "data type of the password should be String.",
-                  "Miss email or password in req.body": "missing email or password",
-                  "The email has already been registered": "the email has been registered"
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Register failed",
+                    "errors": [
+                      {
+                        "title": "Require email or password",
+                        "field_errors": {
+                          "email": "required",
+                          "password": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "email": "string",
+                          "password": "string"
+                        }
+                      },
+                      {
+                        "title": "Email is used",
+                        "field_errors": {
+                          "email": "used"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -170,6 +215,37 @@
         "responses": {
           "201": {
             "description": "user successfully created a record"
+          },
+          "400": {
+            "description": "Client side error",
+            "content": {
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Post record failed",
+                    "errors": [
+                      {
+                        "title": "Require reocrd title, amount or categoryId",
+                        "field_errors": {
+                          "record": "required",
+                          "amount": "required",
+                          "categoryId": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "title": "string",
+                          "amount": "number",
+                          "categoryId": "number"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -223,12 +299,50 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "Miss title or amount or categoryId in req.body": "missing title or amount or category id to update this record",
-                  "There is no the record data in ": "the record does not exist",
-                  "The record doesn't belong to the current user": "this record does not belong to the current user"
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Put record failed",
+                    "errors": [
+                      {
+                        "tile": "Require reocrd id",
+                        "field_errors": {
+                          "recordId": "required"
+                        }
+                      },
+                      {
+                        "title": "Require reocrd id, title, amount or categoryId",
+                        "field_errors": {
+                          "recordId": "required",
+                          "title": "required",
+                          "amount": "required",
+                          "categoryId": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "recordId": "number",
+                          "title": "string",
+                          "amount": "number",
+                          "categoryId": "number"
+                        }
+                      },
+                      {
+                        "title": "Record not exist",
+                        "field_errors": {
+                          "record": "not exist"
+                        }
+                      },
+                      {
+                        "title": "Invalid user",
+                        "field_errors": {
+                          "userId": "not theRecord.userId"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -263,11 +377,38 @@
           "400": {
             "description": "Client side error",
             "content": {
-              "application/json": {
-                "example": {
-                  "Error Situations": "Error Message",
-                  "There is no the record data in ": "the record does not exist",
-                  "The record doesn't belong to the current user": "this record does not belong to the current user"
+              "errors": {
+                "schema": {
+                  "example": {
+                    "code": "400",
+                    "type": "Delete record failed",
+                    "errors": [
+                      {
+                        "tile": "Require reocrd id",
+                        "field_errors": {
+                          "recordId": "required"
+                        }
+                      },
+                      {
+                        "title": "Incorrect data type",
+                        "field_errors": {
+                          "recordId": "number"
+                        }
+                      },
+                      {
+                        "title": "Record not exist",
+                        "field_errors": {
+                          "record": "not exist"
+                        }
+                      },
+                      {
+                        "title": "Invalid user",
+                        "field_errors": {
+                          "userId": "not theRecord.userId"
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
