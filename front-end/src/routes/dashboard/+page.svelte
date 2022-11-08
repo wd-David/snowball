@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import CategoryCard from './CategoryCard.svelte';
+	import ExpenseChart from './ExpenseChart.svelte';
 
 	export let data: PageData;
 
@@ -64,8 +65,8 @@
 	$: earned = incomesThisMonth + savingsThisMonth;
 </script>
 
-<div class="overview-container p-4">
-	<div class="flex flex-col gap-y-6">
+<div class="overview-container gap-10 p-4">
+	<div id="overview" class="flex flex-col gap-y-6">
 		<div class="flex">
 			<div class="flex flex-col gap-y-2">
 				<h2 class="text-2xl font-bold">Overview</h2>
@@ -108,7 +109,7 @@
 				Contact Help</button
 			>
 		</div>
-		<div class="grid grid-cols-4 gap-4">
+		<div class="grid auto-cols-min grid-flow-col gap-4">
 			<CategoryCard
 				category={'Incomes'}
 				totalAmount={incomesThisMonth}
@@ -120,7 +121,7 @@
 					viewBox="0 0 24 24"
 					stroke-width="1.5"
 					stroke="currentColor"
-					class="w-6 h-6"
+					class="h-6 w-6"
 				>
 					<path
 						stroke-linecap="round"
@@ -140,7 +141,7 @@
 					viewBox="0 0 24 24"
 					stroke-width="1.5"
 					stroke="currentColor"
-					class="w-6 h-6"
+					class="h-6 w-6"
 				>
 					<path
 						stroke-linecap="round"
@@ -149,7 +150,10 @@
 					/>
 				</svg>
 			</CategoryCard>
-			<CategoryCard category={'Savings'} totalAmount={savingsThisMonth} diffRatio={getDiffRatio(getRecordsByMonth(savings), currentMonth)}
+			<CategoryCard
+				category={'Savings'}
+				totalAmount={savingsThisMonth}
+				diffRatio={getDiffRatio(getRecordsByMonth(savings), currentMonth)}
 				><svg
 					slot="svg"
 					xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +161,7 @@
 					viewBox="0 0 24 24"
 					stroke-width="1.5"
 					stroke="currentColor"
-					class="w-6 h-6"
+					class="h-6 w-6"
 				>
 					<path
 						stroke-linecap="round"
@@ -168,24 +172,53 @@
 			</CategoryCard>
 		</div>
 	</div>
-	<!-- <div class="breakdown">
-  <div class="breakdown-header">
-    <h2>Breakdown</h2>
-    <div class="button-group">
-      <button>add filter</button>
-      <button>Jan -> Present</button>
-    </div>
-  </div>
-</div> -->
+	<div id="breakdown" class="flex flex-col gap-y-6">
+		<div class="flex">
+			<h2 class="text-2xl font-bold">Breakdown</h2>
+			<div class="ml-auto flex gap-4">
+				<button class="btn-outline btn-ghost btn-sm btn gap-1"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="h-6 w-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
+						/>
+					</svg>
+					add filter</button
+				>
+				<button class="btn-outline btn-ghost btn-sm btn">Jan -> Present</button>
+			</div>
+		</div>
+		<div class="h-full">
+			<ExpenseChart
+				expenses={getRecordsByMonth(expenses)}
+				incomes={getRecordsByMonth(incomes)}
+				savings={getRecordsByMonth(savings)}
+			/>
+		</div>
+	</div>
 </div>
 
-<style lang="scss">
+<style>
 	.overview-container {
+		height: 100%;
 		display: grid;
 		grid-template-rows: min-content 1fr;
 		grid-template-areas:
 			'overview'
 			'breakdown';
-		row-gap: var(--size-4);
+	}
+	#overview {
+		grid-area: overview;
+	}
+	#breakdown {
+		grid-area: breakdown;
 	}
 </style>
