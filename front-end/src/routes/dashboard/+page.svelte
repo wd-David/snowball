@@ -50,9 +50,6 @@
 		if (currentMonth in recordsByMonth) currentMonthAmount = recordsByMonth[currentMonth]?.amount;
 		if (lastMonth in recordsByMonth) lastMonthAmount = recordsByMonth[lastMonth]?.amount;
 
-		console.log(currentMonthAmount);
-		console.log(lastMonthAmount);
-
 		const diff = currentMonthAmount - lastMonthAmount;
 		const ratio = lastMonthAmount !== 0 ? diff / lastMonthAmount : 1;
 
