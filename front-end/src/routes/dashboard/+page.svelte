@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import CategoryCard from './CategoryCard.svelte';
 
 	export let data: PageData;
 
@@ -8,29 +9,59 @@
 	let incomes: ExpenseRecord[];
 	let savings: ExpenseRecord[];
 
-	$: ({ categories, expenses, incomes, savings } = data);
+	$: ({ categories, expenses, incomes, savings, user } = data);
 
 	const currentMonth = new Date().getMonth() + 1;
-	const currentYear = new Date().getFullYear();
 
 	/**
-	 * Filter current month expense records
+	 * Generate records by month
 	 * @param records
 	 */
-	function getCurrentMonthRecord(records: ExpenseRecord[]): ExpenseRecord[] {
-		return records.filter(({ createdAt }) => {
-			const expenseMonth = new Date(createdAt).getMonth() + 1;
-			const expenseYear = new Date(createdAt).getFullYear();
-			return expenseMonth === currentMonth && expenseYear === currentYear;
+	function getRecordsByMonth(records: ExpenseRecord[]): RecordsByMonth {
+		const recordsByMonth = {} as RecordsByMonth;
+
+		records.forEach((record) => {
+			const expenseMonth = new Date(record.createdAt).getMonth() + 1;
+
+			if (expenseMonth in recordsByMonth) {
+				recordsByMonth[expenseMonth].records.push(record);
+				recordsByMonth[expenseMonth].amount += record.amount;
+			} else
+				recordsByMonth[expenseMonth] = {
+					records: [record],
+					amount: record.amount
+				};
 		});
+
+		return recordsByMonth;
 	}
 
-	$: thisMonthExpenses = getCurrentMonthRecord(expenses);
-	$: thisMonthIncomes = getCurrentMonthRecord(incomes);
-	$: thisMonthSavings = getCurrentMonthRecord(savings);
+	/**
+	 * Get diff ratio of last & current month
+	 * @param recordsByMonth
+	 * @param currentMonth
+	 */
+	function getDiffRatio(recordsByMonth: RecordsByMonth, currentMonth: number): number {
+		const lastMonth = currentMonth - 1;
 
-	let spent = 2567;
-	let earned = 5878;
+		let currentMonthAmount = 0;
+		let lastMonthAmount = 0;
+
+		if (currentMonth in recordsByMonth) currentMonthAmount = recordsByMonth[currentMonth]?.amount;
+		if (lastMonth in recordsByMonth) lastMonthAmount = recordsByMonth[lastMonth]?.amount;
+
+		const diff = currentMonthAmount - lastMonthAmount;
+		const ratio = lastMonthAmount !== 0 ? diff / lastMonthAmount : 1;
+
+		return Math.round(ratio * 10000) / 100;
+	}
+
+	$: expensesThisMonth = getRecordsByMonth(expenses)[currentMonth]?.amount;
+	$: incomesThisMonth = getRecordsByMonth(incomes)[currentMonth]?.amount;
+	$: savingsThisMonth = getRecordsByMonth(savings)[currentMonth]?.amount;
+
+	$: spent = expensesThisMonth;
+	$: earned = incomesThisMonth + savingsThisMonth;
 </script>
 
 <div class="overview-container p-4">
@@ -39,7 +70,7 @@
 			<div class="flex flex-col gap-y-2">
 				<h2 class="text-2xl font-bold">Overview</h2>
 				<span class="flex"
-					>You've spend&nbsp;
+					>You've spent&nbsp;
 					<p class="font-semibold text-green-600">-${spent}</p>
 					&nbsp;and earned&nbsp;
 					<p class="font-semibold text-red-600">+${earned}</p>
@@ -78,42 +109,63 @@
 			>
 		</div>
 		<div class="grid grid-cols-4 gap-4">
-			<div class="card border-2 shadow-lg">
-				<div class="card-body">
-					<h2 class="card-title">Card title!</h2>
-					<p>If a dog chews shoes whose shoes does he choose?</p>
-					<div class="card-actions justify-end">
-						<button class="btn-primary btn">Buy Now</button>
-					</div>
-				</div>
-			</div>
-			<div class="card border-2 shadow-lg">
-				<div class="card-body">
-					<h2 class="card-title">Card title!</h2>
-					<p>If a dog chews shoes whose shoes does he choose?</p>
-					<div class="card-actions justify-end">
-						<button class="btn-primary btn">Buy Now</button>
-					</div>
-				</div>
-			</div>
-			<div class="card border-2 shadow-lg">
-				<div class="card-body">
-					<h2 class="card-title">Card title!</h2>
-					<p>If a dog chews shoes whose shoes does he choose?</p>
-					<div class="card-actions justify-end">
-						<button class="btn-primary btn">Buy Now</button>
-					</div>
-				</div>
-			</div>
-			<div class="card border-2 shadow-lg">
-				<div class="card-body">
-					<h2 class="card-title">Card title!</h2>
-					<p>If a dog chews shoes whose shoes does he choose?</p>
-					<div class="card-actions justify-end">
-						<button class="btn-primary btn">Buy Now</button>
-					</div>
-				</div>
-			</div>
+			<CategoryCard
+				category={'Incomes'}
+				totalAmount={incomesThisMonth}
+				diffRatio={getDiffRatio(getRecordsByMonth(incomes), currentMonth)}
+				><svg
+					slot="svg"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+					/>
+				</svg>
+			</CategoryCard>
+			<CategoryCard
+				category={'Expenses'}
+				totalAmount={expensesThisMonth}
+				diffRatio={getDiffRatio(getRecordsByMonth(expenses), currentMonth)}
+				><svg
+					slot="svg"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
+					/>
+				</svg>
+			</CategoryCard>
+			<CategoryCard category={'Savings'} totalAmount={savingsThisMonth} diffRatio={getDiffRatio(getRecordsByMonth(savings), currentMonth)}
+				><svg
+					slot="svg"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
+					/>
+				</svg>
+			</CategoryCard>
 		</div>
 	</div>
 	<!-- <div class="breakdown">
