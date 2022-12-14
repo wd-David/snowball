@@ -7,10 +7,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/",
-      "description": "Local API server"
-    },
-    {
       "url": "https://snowball.fly.dev/",
       "description": "Snowball Production"
     }
@@ -422,7 +418,7 @@
       }
     },
 
-    "/records/inocme": {
+    "/records/income": {
       "get": {
         "tags": ["Record"],
         "summary": "Get the current user's all income records route",
@@ -435,20 +431,24 @@
                 "example": {
                   "income records": [
                     {
-                      "id": 23,
-                      "title": "bonus",
-                      "amount": 70000,
-                      "note": "half year bonus",
-                      "userId": 7,
-                      "categoryId": 13
+                      "id": 5614,
+                      "title": "Licensed Soft Shirt",
+                      "amount": 595,
+                      "note": "evolve e-business infrastructures",
+                      "createdAt": "2022-10-26T02:38:59.574Z",
+                      "updatedAt": "2022-10-26T02:38:59.574Z",
+                      "userId": 47,
+                      "categoryId": 276
                     },
                     {
-                      "id": 24,
-                      "title": "ETF No.4 investment income",
-                      "amount": 8000,
-                      "note": "tax 600",
-                      "userId": 7,
-                      "categoryId": 17
+                      "id": 5615,
+                      "title": "Rustic Granite Fish",
+                      "amount": 414,
+                      "note": "evolve open-source portals",
+                      "createdAt": "2022-09-22T18:12:45.905Z",
+                      "updatedAt": "2022-10-26T02:38:59.574Z",
+                      "userId": 47,
+                      "categoryId": 276
                     }
                   ]
                 }
@@ -477,20 +477,24 @@
                 "example": {
                   "expense records": [
                     {
-                      "id": 34,
-                      "title": "white t-shirt",
-                      "amount": 60,
-                      "note": "size S",
-                      "userId": 7,
-                      "categoryId": 39
+                      "id": 688,
+                      "title": "Handmade Frozen Hat",
+                      "amount": 230,
+                      "note": "repurpose end-to-end e-markets",
+                      "createdAt": "2022-11-01T12:04:58.813Z",
+                      "updatedAt": "2022-11-01T12:04:58.813Z",
+                      "userId": 6,
+                      "categoryId": 10
                     },
                     {
-                      "id": 35,
-                      "title": "baby's shoes",
-                      "amount": 70,
-                      "note": "size 2",
-                      "userId": 7,
-                      "categoryId": 39
+                      "id": 689,
+                      "title": "Refined Granite Towels",
+                      "amount": 27,
+                      "note": "brand e-business supply-chains",
+                      "createdAt": "2022-04-02T03:49:47.973Z",
+                      "updatedAt": "2022-11-01T12:04:58.813Z",
+                      "userId": 6,
+                      "categoryId": 10
                     }
                   ]
                 }
@@ -519,20 +523,24 @@
                 "example": {
                   "income records": [
                     {
-                      "id": 10,
-                      "title": "investing fund",
-                      "amount": 2000,
-                      "note": "October",
-                      "userId": 7,
-                      "categoryId": 19
+                      "id": 676,
+                      "title": "Bespoke Fresh Bacon",
+                      "amount": 524,
+                      "note": "monetize dynamic models",
+                      "createdAt": "2022-11-01T12:04:58.778Z",
+                      "updatedAt": "2022-11-01T12:04:58.778Z",
+                      "userId": 6,
+                      "categoryId": 6
                     },
                     {
-                      "id": 13,
-                      "title": "emergency fund",
-                      "amount": 800,
-                      "note": "October",
-                      "userId": 7,
-                      "categoryId": 18
+                      "id": 677,
+                      "title": "Practical Cotton Keyboard",
+                      "amount": 716,
+                      "note": "deliver granular e-markets",
+                      "createdAt": "2021-06-06T23:51:26.919Z",
+                      "updatedAt": "2022-11-01T12:04:58.778Z",
+                      "userId": 6,
+                      "categoryId": 6
                     }
                   ]
                 }
