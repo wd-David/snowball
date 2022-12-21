@@ -1,4 +1,4 @@
-import { invalid, redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { env } from '$env/dynamic/private';
 
@@ -17,10 +17,10 @@ export const actions: Actions = {
 		const password = data.get('password') as string;
 
 		if (!email) {
-			return invalid(400, { email, missing: true });
+			return fail(400, { email, missing: true });
 		}
 		if (!password) {
-			return invalid(400, { password, missing: true });
+			return fail(400, { password, missing: true });
 		}
 
 		const res = await fetch(`${env.SNOWBALL_BE_URL}/users/logIn`, {
@@ -30,7 +30,7 @@ export const actions: Actions = {
 		});
 
 		// Unauthorized
-		if (res.status === 401) return invalid(401, { incorrect: true });
+		if (res.status === 401) return fail(401, { incorrect: true });
 
 		const { token } = await res.json();
 
@@ -72,10 +72,10 @@ export const actions: Actions = {
 		const password = data.get('password') as string;
 
 		if (!email) {
-			return invalid(400, { email, missing: true });
+			return fail(400, { email, missing: true });
 		}
 		if (!password) {
-			return invalid(400, { password, missing: true });
+			return fail(400, { password, missing: true });
 		}
 
 		const res = await fetch(`${env.SNOWBALL_BE_URL}/users/register`, {
@@ -85,7 +85,7 @@ export const actions: Actions = {
 		});
 
 		// Unauthorized
-		if (res.status === 400) return invalid(400, { email, registered: true });
+		if (res.status === 400) return fail(400, { email, registered: true });
 
 		throw redirect(303, '/login');
 	}
